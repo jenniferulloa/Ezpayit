@@ -1,30 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+//import AsyncStorage from '@react-native-community/async-storage';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+
+import { useEffect } from 'react';
+
+
+import StackScreen from './screens/StackScreen';
 import LoginScreen from './screens/LoginScreen';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, } from 'react-native';
-import RegisterScreen from './screens/RegisterScreen';
-import mainScreen from './screens/mainScreen';
+
+//import { AuthContext } from './components/context';
 
 
-const Stack = createStackNavigator();
-const globalScreenOptions= {
-  headerStyle:{backgroundColor:'#2c6bed'},
-  headerTitleStyle:{color:'white'},
-  headerTintColor:'white',
-}
-
-export default function App() {
+const App = () =>  {
  
-
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={globalScreenOptions}>
-        <Stack.Screen name='Login' component={LoginScreen}/>
-        <Stack.Screen name='Register' component={RegisterScreen}/>
-        <Stack.Screen name='Home' component={mainScreen}/>
-      </Stack.Navigator>
+    <StackScreen/>
+      {/* <Stack.Navigator screenOptions={globalScreenOptions}> */}
+        {/* <Stack.Screen name='Login' component={LoginScreen}/> */}
+        {/* <Stack.Screen name='Register' component={RegisterScreen}/> */}
+        {/* <Stack.Screen name='Home' component={mainScreen}/> */}
+      
     </NavigationContainer>
     
   );
@@ -39,3 +37,6 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export default App;
+
