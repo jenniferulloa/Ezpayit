@@ -152,6 +152,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
+                    onPress={() => navigation.navigate('TransferScreen')}
                  //   onPress={() => {loginHandle( data.email, data.password )}}
                 >
                 <LinearGradient
