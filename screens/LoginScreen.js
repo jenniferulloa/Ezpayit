@@ -67,6 +67,7 @@ const LoginScreen = ({navigation}) => {
     }
 
 
+    
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
@@ -151,17 +152,15 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('mainScreen')}
-                 //   onPress={() => {loginHandle( data.email, data.password )}}
+                    onPress={() => navigation.navigate('BottomTabScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
                     style={styles.Login}
-                    
                 >
                     <Text style={[styles.textSign, {
                         color:'#fff'
-                    }]} >Sign In</Text>
+                    }]}>Sign In</Text>
                 </LinearGradient>
                 </TouchableOpacity>
 

@@ -222,7 +222,7 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => {}}
+                    onPress={() => navigation.navigate('BottomTabScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
