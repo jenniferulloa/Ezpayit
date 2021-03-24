@@ -39,6 +39,7 @@ const RecipientsScreen = ({navigation}) => {
     
     return (
     <ScrollView style={styles.container}>
+        <Text>{"\n\n\n\n\n"}</Text>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
         <View style={styles.header}>
             <Text style={styles.text_header}>Select a Recipient:</Text>
@@ -48,8 +49,9 @@ const RecipientsScreen = ({navigation}) => {
             style={styles.footer}
         >
             <View >
-            <Text style={styles.item}>Don</Text>
-            <Text style={styles.item}> abc@gmail.com </Text>
+            <Text style={styles.name}>Dana McDonald</Text>
+            <Text style={styles.item}>(214)123 - 2323 </Text>
+            <Text style={styles.item}>Dana123@gmail.com</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
@@ -69,8 +71,9 @@ const RecipientsScreen = ({navigation}) => {
 
             </View>
             <Text style={styles.item}>{"\n"}{"\n"} </Text>
-            <Text style={styles.item}>Don</Text> 
-            <Text style={styles.item}>abc@gmail.com</Text>
+            <Text style={styles.name}>John Smith</Text> 
+            <Text style={styles.item}>johnS51@gmail.com</Text>
+            <Text style={styles.item}>(214)678-9876</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
@@ -90,8 +93,9 @@ const RecipientsScreen = ({navigation}) => {
 
             </View>
             <Text style={styles.item}>{"\n"}{"\n"} </Text>
-            <Text style={styles.item}>Don</Text>
-            <Text style={styles.item}>abc@gmail.com</Text>
+            <Text style={styles.name}>Don Hathway</Text>
+            <Text style={styles.item}>(469)222-5657</Text>
+            <Text style={styles.item}>donh232@gmail.com</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
@@ -153,11 +157,16 @@ const styles = StyleSheet.create({
          fontWeight: 'bold',
          backgroundColor: 'white',
        },
-       item: {
+       name: {
          padding: 10,
-         fontSize: 18,
+         fontSize: 22,
+         fontWeight: 'bold',
          height: 44,
        },
+       item: {
+        fontSize: 18,
+        paddingLeft: 10
+      },
     header: {
         flex: 1,
         justifyContent: 'flex-end',
