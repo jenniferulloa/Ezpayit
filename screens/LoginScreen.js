@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+
 import { 
     View, 
     Text, 
@@ -15,60 +16,38 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import firebase from './firebase';
 
-// import { useTheme } from 'react-native-paper';
 
-//import { AuthContext } from '../components/context';
-
-//import Users from '../model/users';
-
-const LoginScreen = ({navigation}) => {
-
-    const [data, setData] = React.useState({
-        email: '',
-        password: '',
-        check_textInputChange: false,
-        secureTextEntry: true,
-      //  isValidUser: true,
-       // isValidPassword: true,
-    });
-
-    const textInputChange = (val) => {
-        if( val.length != 0 ) {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: true,
-               // isValidUser: true
-            });
-        } else {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: false,
-               // isValidUser: false
-            });
-        }
+class LoginScreen extends Component {
+    constructor(props){
+        super(props);
+        this.login = this.login.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.signup = this.signup.bind(this);
+        this.state = {
+            email: '',
+            password: ''
+        };
     }
-
-    const updateSecureTextEntry = () => {
-        setData({
-            ...data,
-            secureTextEntry: !data.secureTextEntry
-        });
-    }
-
-    const handlePasswordChange = (val) => {
-          setData({
-              ...data,
-              password: val,
-              isValidPassword: true
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+      }
+    
+    login(e) {
+        e.preventDefault();
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
+        }).catch((error) => {
+            //console.log(error);
           });
     }
 
 
-    
+render(){
+
+
     return (
+    
       <View style={styles.container}>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
         <View style={styles.header}>
@@ -87,12 +66,16 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your email"
+                    type = "email"
+                    name = "email"
+                    id="exampleInputEmail1"
+                    value = {this.state.email}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => textInputChange(val)}
+                    onChangeText={this.handleChange}
                    // onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
                 />
-                {data.check_textInputChange ? 
+                {/* {data.check_textInputChange ? 
                 <Animatable.View      
                     animation="bounceIn"
                 >
@@ -102,7 +85,7 @@ const LoginScreen = ({navigation}) => {
                         size={20}
                     />
                 </Animatable.View>
-                : null}
+                : null} */}
             </View>
             {/* { data.isValidUser ? null : 
             <Animatable.View animation="fadeInLeft" duration={500}>
@@ -121,10 +104,14 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your password"
-                    secureTextEntry={data.secureTextEntry ? true : false}
+                    value = {this.state.password}
+                    type = "password"
+                    name = "password"
+                    id="exampleInputPassword1"
+                    //secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={this.handleChange}
                 />
                 <TouchableOpacity
                     onPress={updateSecureTextEntry}
@@ -181,7 +168,7 @@ const LoginScreen = ({navigation}) => {
       </View>
     );
 };
-
+};
 export default LoginScreen;
 
 const styles = StyleSheet.create({

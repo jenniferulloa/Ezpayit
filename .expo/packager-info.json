@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19000,
-  "expoServerNgrokUrl": "https://e6-uz6.anonymous.ezpayit.exp.direct",
-  "packagerNgrokUrl": "https://packager.e6-uz6.anonymous.ezpayit.exp.direct",
-  "ngrokPid": 55819,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "packagerPid": null,
-  "webpackServerPort": 19006
+  "webpackServerPort": null
 }

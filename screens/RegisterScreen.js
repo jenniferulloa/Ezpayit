@@ -14,6 +14,8 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import firebase from './firebase';
+
 
 const RegisterScreen = ({navigation}) => {
 
@@ -27,6 +29,8 @@ const RegisterScreen = ({navigation}) => {
         secureTextEntry: true,
         confirm_secureTextEntry: true,
     });
+
+    //const ref = firebase.firestore().collection("users");
 
     const textInputChange = (val) => {
         if( val.length !== 0 ) {
