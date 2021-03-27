@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from "@reach/router";
 import { 
     View, 
     Text, 
@@ -14,63 +15,104 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import MainScreen from './MainScreen'
+
 
 const RegisterScreen = ({navigation}) => {
 
-    const [data, setData] = React.useState({
-        first_name :'',
-        last_name:'',
-        email: '',
-        password: '',
-        confirm_password: '',
-        check_textInputChange: false,
-        secureTextEntry: true,
-        confirm_secureTextEntry: true,
-    });
-
-    const textInputChange = (val) => {
-        if( val.length !== 0 ) {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: true
-            });
-        } else {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: false
-            });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [error, setError] = useState(null);
+    const [confirmpassword, setConfirmPassword] = useState("");
+   
+    const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
+        event.preventDefault();
+        try{
+          const {user} = await auth.createUserWithEmailAndPassword(email, password);
+          generateUserDocument(user, {displayName});
         }
-    }
+        catch(error){
+          setError('Error Signing up with email and password');
+        }
+      setEmail("");
+      setPassword("");
+      setFirstName("");
+      setLastName("");
+      setConfirmPassword("");
+    };
+    const onChangeHandler = event => {
+      const { name, value } = event.currentTarget;
+      if (name === "userEmail") {
+        setEmail(value);
+      } else if (name === "userPassword") {
+        setPassword(value);
+      } else if (name === "userFirstName") {
+        setFirstName(value);
+      }
+      else if (name == "userLastName"){
+          setLastName(value);
+      }
+      else if (name == "userConfirmPassword")
+      {
+          setConfirmPassword(value);
+      }
+    };
+    // const [data, setData] = React.useState({
+    //     first_name :'',
+    //     last_name:'',
+    //     email: '',
+    //     password: '',
+    //     confirm_password: '',
+    //     check_textInputChange: false,
+    //     secureTextEntry: true,
+    //     confirm_secureTextEntry: true,
+    // });
 
-    const handlePasswordChange = (val) => {
-        setData({
-            ...data,
-            password: val
-        });
-    }
+    // const textInputChange = (val) => {
+    //     if( val.length !== 0 ) {
+    //         setData({
+    //             ...data,
+    //             email: val,
+    //             check_textInputChange: true
+    //         });
+    //     } else {
+    //         setData({
+    //             ...data,
+    //             email: val,
+    //             check_textInputChange: false
+    //         });
+    //     }
+    // }
 
-    const handleConfirmPasswordChange = (val) => {
-        setData({
-            ...data,
-            confirm_password: val
-        });
-    }
+    // const handlePasswordChange = (val) => {
+    //     setData({
+    //         ...data,
+    //         password: val
+    //     });
+    // }
 
-    const updateSecureTextEntry = () => {
-        setData({
-            ...data,
-            secureTextEntry: !data.secureTextEntry
-        });
-    }
+    // const handleConfirmPasswordChange = (val) => {
+    //     setData({
+    //         ...data,
+    //         confirm_password: val
+    //     });
+    // }
 
-    const updateConfirmSecureTextEntry = () => {
-        setData({
-            ...data,
-            confirm_secureTextEntry: !data.confirm_secureTextEntry
-        });
-    }
+    // const updateSecureTextEntry = () => {
+    //     setData({
+    //         ...data,
+    //         secureTextEntry: !data.secureTextEntry
+    //     });
+    // }
+
+    // const updateConfirmSecureTextEntry = () => {
+    //     setData({
+    //         ...data,
+    //         confirm_secureTextEntry: !data.confirm_secureTextEntry
+    //     });
+    // }
 
     return (
       <View style={styles.container}>
@@ -93,9 +135,13 @@ const RegisterScreen = ({navigation}) => {
                 <TextInput 
                     placeholder="Your first name"
                     style={styles.textInput}
+                    name = "userFirstName"
+                    id = "userFirstName"
+                    value = {first_name}
                     autoCapitalize="none"
-               //     onChangeText={(val) => textInputChange(val)}
+                    onChange={event => onChangeHandler(event)}
                 />
+         
               </View>
 
                 <Text style={[styles.text_footer, {
@@ -107,11 +153,14 @@ const RegisterScreen = ({navigation}) => {
                     color="#05375a"
                     size={20}
                 />
-                <TextInput 
+                <TextInput
                     placeholder="Your last name"
                     style={styles.textInput}
+                    id = "userLastName"
+                    name = "userLastName"
+                    value = {last_name}
                     autoCapitalize="none"
-                   // onChangeText={(val) => textInputChange(val)}
+                    onChange={event => onChangeHandler(event)}
                 />
               </View>
             <Text style={[styles.text_footer, {
@@ -125,21 +174,14 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your email"
+                    id = "userEmail"
+                    name = "userEmail"
+                    value = {email}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => textInputChange(val)}
+                    onChange={event => onChangeHandler(event)}
                 />
-                {data.check_textInputChange ? 
-                <Animatable.View
-                    animation="bounceIn"
-                >
-                    <Feather 
-                        name="check-circle"
-                        color="green"
-                        size={20}
-                    />
-                </Animatable.View>
-                : null}
+               
             </View>
 
             <Text style={[styles.text_footer, {
@@ -153,28 +195,15 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your Password"
-                    secureTextEntry={data.secureTextEntry ? true : false}
+                    secureTextEntry={password.secureTextEntry ? true : false}
                     style={styles.textInput}
+                    id = "userPassword"
+                    value = {password}
+                    name = "userPassword"
                     autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChange={event => onChangeHandler(event)}
                 />
-                <TouchableOpacity
-                    onPress={updateSecureTextEntry}
-                >
-                    {data.secureTextEntry ? 
-                    <Feather 
-                        name="eye-off"
-                        color="grey"
-                        size={20}
-                    />
-                    :
-                    <Feather 
-                        name="eye"
-                        color="grey"
-                        size={20}
-                    />
-                    }
-                </TouchableOpacity>
+               
             </View>
 
             <Text style={[styles.text_footer, {
@@ -188,28 +217,14 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Confirm Your Password"
-                    secureTextEntry={data.confirm_secureTextEntry ? true : false}
+                    //secureTextEntry={data.confirm_secureTextEntry ? true : false}
                     style={styles.textInput}
+                    name = "userConfirmPassword"
+                    id = "userConfirmPassword"
+                    value = {confirmpassword}
                     autoCapitalize="none"
-                    onChangeText={(val) => handleConfirmPasswordChange(val)}
+                    onChange={event=> onChangeHandler(event)}
                 />
-                <TouchableOpacity
-                    onPress={updateConfirmSecureTextEntry}
-                >
-                    {data.confirm_secureTextEntry ? 
-                    <Feather 
-                        name="eye-off"
-                        color="grey"
-                        size={20}
-                    />
-                    :
-                    <Feather 
-                        name="eye"
-                        color="grey"
-                        size={20}
-                    />
-                    }
-                </TouchableOpacity>
             </View>
             <View style={styles.textPrivate}>
                 <Text style={styles.color_textPrivate}>
@@ -222,7 +237,11 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('BottomTabScreen')}
+                    onClick={event => {
+                        createUserWithEmailAndPasswordHandler(event, email, password);
+                      }}
+                    onPress={() => navigation.navigate('MainScreen')}
+
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -235,7 +254,7 @@ const RegisterScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigation.goBack()}
+                    //onPress={() => navigation.goBack()}
                     style={[styles.Login, {
                         borderColor: '#7D2AE8',
                         borderWidth: 1,

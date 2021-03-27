@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from "@reach/router";
 import { 
     View, 
     Text, 
@@ -24,47 +25,65 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const LoginScreen = ({navigation}) => {
 
-    const [data, setData] = React.useState({
-        email: '',
-        password: '',
-        check_textInputChange: false,
-        secureTextEntry: true,
-      //  isValidUser: true,
-       // isValidPassword: true,
-    });
+    // const [event, setevent] = React.useState({
+    //     email: '',
+    //     password: '',
+    //     check_textInputChange: false,
+    //     secureTextEntry: true,
+    //   //  isValidUser: true,
+    //    // isValidPassword: true,
+    // });
 
-    const textInputChange = (val) => {
-        if( val.length != 0 ) {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: true,
-               // isValidUser: true
-            });
-        } else {
-            setData({
-                ...data,
-                email: val,
-                check_textInputChange: false,
-               // isValidUser: false
-            });
+    const[email, setEmail] = useState("");
+    const[password,setPassword] = useState("");
+    const [error, setError] = useState (null);
+    const signInWithEmailAndPasswordHandler = 
+            (event,email,password) => {
+                event.preventDefault();
+            };
+    const onChangeHandler = (event) => {
+        const {name, value} = event.currentTarget;
+
+        if (name == 'userEmail') {
+            setEmail(value);
         }
-    }
+        else if(name === 'userPassword'){
+            setPassword(value);
+        }   
+    };
 
-    const updateSecureTextEntry = () => {
-        setData({
-            ...data,
-            secureTextEntry: !data.secureTextEntry
-        });
-    }
+    // const textInputChange = (val) => {
+    //     if( val.length != 0 ) {
+    //         setevent({
+    //             ...event,
+    //             email: val,
+    //             check_textInputChange: true,
+    //            // isValidUser: true
+    //         });
+    //     } else {
+    //         setevent({
+    //             ...event,
+    //             email: val,
+    //             check_textInputChange: false,
+    //            // isValidUser: false
+    //         });
+    //     }
+    // }
 
-    const handlePasswordChange = (val) => {
-          setData({
-              ...data,
-              password: val,
-              isValidPassword: true
-          });
-    }
+    // const updateSecureTextEntry = () => {
+    //     setevent({
+    //         ...event,
+    //         secureTextEntry: !event.secureTextEntry
+    //     });
+    // }
+
+    // const handlePasswordChange = (val) => {
+    //       setevent({
+    //           ...event,
+    //           password: val,
+    //           isValidPassword: true
+    //       });
+    // }
 
 
     
@@ -88,23 +107,26 @@ const LoginScreen = ({navigation}) => {
                 <TextInput 
                     placeholder="Your email"
                     style={styles.textInput}
+                    name = "userEmail"
+                    value = {email}
+                    id = "userEmail"
                     autoCapitalize="none"
-                    onChangeText={(val) => textInputChange(val)}
+                    onChangeText={(event) => onChangeHandler(event)}
                    // onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
                 />
-                {data.check_textInputChange ? 
-                <Animatable.View      
-                    animation="bounceIn"
-                >
-                    <Feather 
-                        name="check-circle"
-                        color="green"
-                        size={20}
-                    />
-                </Animatable.View>
-                : null}
+                {/* {event.check_textInputChange ? 
+                // <Animatable.View      
+                //     animation="bounceIn"
+                // >
+                //     <Feather 
+                //         name="check-circle"
+                //         color="green"
+                //         size={20}
+                //     />
+                // </Animatable.View>
+                : null} */}
             </View>
-            {/* { data.isValidUser ? null : 
+            {/* { event.isValidUser ? null : 
             <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
             </Animatable.View>
@@ -121,15 +143,18 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your password"
-                    secureTextEntry={data.secureTextEntry ? true : false}
+                    name = "userPassword"
+                    value = {password}
+                    id = "userPassword"
+                    //secureTextEntry={event.secureTextEntry ? true : false}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={(event) => onChangeHandler(event)}
                 />
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={updateSecureTextEntry}
                 >
-                    {data.secureTextEntry ? 
+                    {event.secureTextEntry ? 
                     <Feather 
                         name="eye-off"
                         color="grey"
@@ -142,7 +167,7 @@ const LoginScreen = ({navigation}) => {
                         size={20}
                     />
                     }
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
    
 
