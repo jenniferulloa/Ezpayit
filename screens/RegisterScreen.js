@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+//import firebaseConfig from 'firebase';
+import "firebase/auth";
+import "firebase/firestore";
 import { Link } from "@reach/router";
 import { 
     View, 
@@ -16,7 +19,9 @@ import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import MainScreen from './MainScreen'
+import { set } from 'react-native-reanimated';
 
+firebase.initializeApp() 
 
 const RegisterScreen = ({navigation}) => {
 
@@ -27,7 +32,7 @@ const RegisterScreen = ({navigation}) => {
     const [error, setError] = useState(null);
     const [confirmpassword, setConfirmPassword] = useState("");
    
-    const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
+    const createUserWithEmailAndPassword = async (event, email, password) => {
         event.preventDefault();
         try{
           const {user} = await auth.createUserWithEmailAndPassword(email, password);
@@ -42,77 +47,16 @@ const RegisterScreen = ({navigation}) => {
       setLastName("");
       setConfirmPassword("");
     };
-    const onChangeHandler = event => {
-      const { name, value } = event.currentTarget;
-      if (name === "userEmail") {
-        setEmail(value);
-      } else if (name === "userPassword") {
-        setPassword(value);
-      } else if (name === "userFirstName") {
-        setFirstName(value);
-      }
-      else if (name == "userLastName"){
-          setLastName(value);
-      }
-      else if (name == "userConfirmPassword")
-      {
-          setConfirmPassword(value);
-      }
-    };
-    // const [data, setData] = React.useState({
-    //     first_name :'',
-    //     last_name:'',
-    //     email: '',
-    //     password: '',
-    //     confirm_password: '',
-    //     check_textInputChange: false,
-    //     secureTextEntry: true,
-    //     confirm_secureTextEntry: true,
-    // });
 
-    // const textInputChange = (val) => {
-    //     if( val.length !== 0 ) {
-    //         setData({
-    //             ...data,
-    //             email: val,
-    //             check_textInputChange: true
-    //         });
-    //     } else {
-    //         setData({
-    //             ...data,
-    //             email: val,
-    //             check_textInputChange: false
-    //         });
-    //     }
-    // }
+    const updateFirstName = e => setFirstName(e.target.value);
+    const updateLastName = e => setLastName(e.target.value);
+    const updateEmail = e => setEmail(e.target.value);
+    const updatePassword = e => setPassword(e.target.value);
+    const updateConfirmPassword = e => setConfirmPassword(e.target.value);
 
-    // const handlePasswordChange = (val) => {
-    //     setData({
-    //         ...data,
-    //         password: val
-    //     });
-    // }
+    
 
-    // const handleConfirmPasswordChange = (val) => {
-    //     setData({
-    //         ...data,
-    //         confirm_password: val
-    //     });
-    // }
 
-    // const updateSecureTextEntry = () => {
-    //     setData({
-    //         ...data,
-    //         secureTextEntry: !data.secureTextEntry
-    //     });
-    // }
-
-    // const updateConfirmSecureTextEntry = () => {
-    //     setData({
-    //         ...data,
-    //         confirm_secureTextEntry: !data.confirm_secureTextEntry
-    //     });
-    // }
 
     return (
       <View style={styles.container}>
@@ -139,7 +83,7 @@ const RegisterScreen = ({navigation}) => {
                     id = "userFirstName"
                     value = {first_name}
                     autoCapitalize="none"
-                    onChange={event => onChangeHandler(event)}
+                    onChange={updateFirstName}
                 />
          
               </View>
@@ -160,7 +104,7 @@ const RegisterScreen = ({navigation}) => {
                     name = "userLastName"
                     value = {last_name}
                     autoCapitalize="none"
-                    onChange={event => onChangeHandler(event)}
+                    onChange={updateLastName}
                 />
               </View>
             <Text style={[styles.text_footer, {
@@ -179,7 +123,7 @@ const RegisterScreen = ({navigation}) => {
                     value = {email}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChange={event => onChangeHandler(event)}
+                    onChange={updateEmail}
                 />
                
             </View>
@@ -195,13 +139,13 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your Password"
-                    secureTextEntry={password.secureTextEntry ? true : false}
+                    //secureTextEntry={password.secureTextEntry ? true : false}
                     style={styles.textInput}
                     id = "userPassword"
                     value = {password}
                     name = "userPassword"
                     autoCapitalize="none"
-                    onChange={event => onChangeHandler(event)}
+                    onChange={updatePassword}
                 />
                
             </View>
@@ -223,7 +167,7 @@ const RegisterScreen = ({navigation}) => {
                     id = "userConfirmPassword"
                     value = {confirmpassword}
                     autoCapitalize="none"
-                    onChange={event=> onChangeHandler(event)}
+                    onChange={updateConfirmPassword}
                 />
             </View>
             <View style={styles.textPrivate}>
@@ -237,10 +181,16 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onClick={event => {
-                        createUserWithEmailAndPasswordHandler(event, email, password);
-                      }}
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onClick={firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        var user = userCredential.user;
+                    })
+                .catch ((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+
+                })}
+                    onPress={() => navigation.navigate('LoginScreen')}
 
                 >
                 <LinearGradient

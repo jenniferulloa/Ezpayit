@@ -18,13 +18,6 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
-//import Accordion from 'react-bootstrap/Accordion'
-
-// import { useTheme } from 'react-native-paper';
-
-//import { AuthContext } from '../components/context';
-
-//import Users from '../model/users';
 
 const RecipientsScreen = ({navigation}) => {
 
