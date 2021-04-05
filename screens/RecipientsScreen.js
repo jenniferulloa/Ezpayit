@@ -26,6 +26,15 @@ const RecipientsScreen = ({navigation}) => {
         Info: '',
     });
 
+    const alertSubmit = () => {
+        Alert.alert(
+        "Transfer complete",
+        "Notification will be sent shortly",
+        [
+          { text: "OK", onPress: () => navigation.navigate('MainScreen') }]
+    )
+
+    }
 
     
     return (
@@ -44,7 +53,7 @@ const RecipientsScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onPress={alertSubmit}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -65,7 +74,7 @@ const RecipientsScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onPress={alertSubmit}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -86,7 +95,7 @@ const RecipientsScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onPress={alertSubmit}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -106,7 +115,7 @@ const RecipientsScreen = ({navigation}) => {
              <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onPress={alertSubmit}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >

@@ -111,7 +111,8 @@ const LoginScreen = ({navigation}) => {
                     value = {email}
                     id = "userEmail"
                     autoCapitalize="none"
-                    onChangeText={(event) => onChangeHandler(event)}
+                    onChangeText = {(text) => setEmail(text)}
+                    // onChangeText={(event) => onChangeHandler(event)}
                    // onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
                 />
                 {/* {event.check_textInputChange ? 
@@ -149,7 +150,8 @@ const LoginScreen = ({navigation}) => {
                     secureTextEntry={true}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(event) => onChangeHandler(event)}
+                    onChangeText = {(text) => setPassword(text)}
+                    // onChangeText={(event) => onChangeHandler(event)}
                 />
                 {/* <TouchableOpacity
                     onPress={updateSecureTextEntry}

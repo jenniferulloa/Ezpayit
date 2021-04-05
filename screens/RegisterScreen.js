@@ -139,7 +139,7 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your Password"
-                    secureTextEntry={rue}
+                    secureTextEntry
                     style={styles.textInput}
                     id = "userPassword"
                     value = {password}
@@ -161,7 +161,7 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Confirm Your Password"
-                    //secureTextEntry={data.confirm_secureTextEntry ? true : false}
+                    secureTextEntry
                     style={styles.textInput}
                     name = "userConfirmPassword"
                     id = "userConfirmPassword"
@@ -204,7 +204,7 @@ const RegisterScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    //onPress={() => navigation.goBack()}
+                    onPress={() => navigation.navigate('LoginScreen')}
                     style={[styles.Login, {
                         borderColor: '#7D2AE8',
                         borderWidth: 1,
