@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "@reach/router";
 import { 
     View, 
@@ -17,75 +17,31 @@ import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
-// import { useTheme } from 'react-native-paper';
+import {auth} from "../firebase";
 
-//import { AuthContext } from '../components/context';
-
-//import Users from '../model/users';
 
 const LoginScreen = ({navigation}) => {
 
-    // const [event, setevent] = React.useState({
-    //     email: '',
-    //     password: '',
-    //     check_textInputChange: false,
-    //     secureTextEntry: true,
-    //   //  isValidUser: true,
-    //    // isValidPassword: true,
-    // });
-
     const[email, setEmail] = useState("");
     const[password,setPassword] = useState("");
-    const [error, setError] = useState (null);
-    const signInWithEmailAndPasswordHandler = 
-            (event,email,password) => {
-                event.preventDefault();
-            };
-    const onChangeHandler = (event) => {
-        const {name, value} = event.currentTarget;
 
-        if (name == 'userEmail') {
-            setEmail(value);
-        }
-        else if(name === 'userPassword'){
-            setPassword(value);
-        }   
-    };
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
+            if(authUser){
+                navigation.replace("MainScreen")
+            }
+        });
 
-    // const textInputChange = (val) => {
-    //     if( val.length != 0 ) {
-    //         setevent({
-    //             ...event,
-    //             email: val,
-    //             check_textInputChange: true,
-    //            // isValidUser: true
-    //         });
-    //     } else {
-    //         setevent({
-    //             ...event,
-    //             email: val,
-    //             check_textInputChange: false,
-    //            // isValidUser: false
-    //         });
-    //     }
-    // }
+        return unsubscribe;
+    },[])
 
-    // const updateSecureTextEntry = () => {
-    //     setevent({
-    //         ...event,
-    //         secureTextEntry: !event.secureTextEntry
-    //     });
-    // }
-
-    // const handlePasswordChange = (val) => {
-    //       setevent({
-    //           ...event,
-    //           password: val,
-    //           isValidPassword: true
-    //       });
-    // }
-
-
+    const signingIn = () => {
+        auth.signInWithEmailAndPassword(email,password)
+        .then(()=>{
+            navigation.navigate('MainScreen')
+        })
+        .catch((error) => alert(error));
+    }
     
     return (
       <View style={styles.container}>
@@ -112,26 +68,11 @@ const LoginScreen = ({navigation}) => {
                     id = "userEmail"
                     autoCapitalize="none"
                     onChangeText = {(text) => setEmail(text)}
-                    // onChangeText={(event) => onChangeHandler(event)}
-                   // onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
+
                 />
-                {/* {event.check_textInputChange ? 
-                // <Animatable.View      
-                //     animation="bounceIn"
-                // >
-                //     <Feather 
-                //         name="check-circle"
-                //         color="green"
-                //         size={20}
-                //     />
-                // </Animatable.View>
-                : null} */}
+                
             </View>
-            {/* { event.isValidUser ? null : 
-            <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
-            </Animatable.View>
-            } */}
+           
         
             <Text style={[styles.text_footer,{
                 marginTop: 35
@@ -153,23 +94,7 @@ const LoginScreen = ({navigation}) => {
                     onChangeText = {(text) => setPassword(text)}
                     // onChangeText={(event) => onChangeHandler(event)}
                 />
-                {/* <TouchableOpacity
-                    onPress={updateSecureTextEntry}
-                >
-                    {event.secureTextEntry ? 
-                    <Feather 
-                        name="eye-off"
-                        color="grey"
-                        size={20}
-                    />
-                    :
-                    <Feather 
-                        name="eye"
-                        color="grey"
-                        size={20}
-                    />
-                    }
-                </TouchableOpacity> */}
+               
             </View>
    
 
@@ -180,7 +105,7 @@ const LoginScreen = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.Login}
                     // onPress={() => navigation.navigate('BottomTabScreen')}
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onPress={signingIn}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

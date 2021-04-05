@@ -21,7 +21,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MainScreen from './MainScreen'
 import { set } from 'react-native-reanimated';
 
-// firebase.initializeApp() 
+import {auth} from "../firebase";
 
 const RegisterScreen = ({navigation}) => {
 
@@ -31,33 +31,20 @@ const RegisterScreen = ({navigation}) => {
     const [last_name, setLastName] = useState("");
     const [error, setError] = useState(null);
     const [confirmpassword, setConfirmPassword] = useState("");
-   
-    const createUserWithEmailAndPassword = async (event, email, password) => {
-        event.preventDefault();
-        try{
-          const {user} = await auth.createUserWithEmailAndPassword(email, password);
-          generateUserDocument(user, {displayName});
-        }
-        catch(error){
-          setError('Error Signing up with email and password');
-        }
-      setEmail("");
-      setPassword("");
-      setFirstName("");
-      setLastName("");
-      setConfirmPassword("");
-    };
-
-    const updateFirstName = e => setFirstName(e.target.value);
-    const updateLastName = e => setLastName(e.target.value);
-    const updateEmail = e => setEmail(e.target.value);
-    const updatePassword = e => setPassword(e.target.value);
-    const updateConfirmPassword = e => setConfirmPassword(e.target.value);
 
     
-
-
-
+    const register = () => {
+        auth.createUserWithEmailAndPassword(email,password)
+        .then((authUser) => {
+            authUser.user.updateProfile({
+                displayName: first_name,
+            });
+        console.log(authUser)
+        console.log(authUser.user.displayName)
+        })
+        .catch((error) => alert(error.message));
+    };
+    
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
@@ -81,9 +68,10 @@ const RegisterScreen = ({navigation}) => {
                     style={styles.textInput}
                     name = "userFirstName"
                     id = "userFirstName"
+                    type="text"
                     value = {first_name}
                     autoCapitalize="none"
-                    onChange={updateFirstName}
+                    onChangeText={(text) => setFirstName(text)}
                 />
          
               </View>
@@ -104,7 +92,7 @@ const RegisterScreen = ({navigation}) => {
                     name = "userLastName"
                     value = {last_name}
                     autoCapitalize="none"
-                    onChange={updateLastName}
+                    onChangeText={(text) => setLastName(text)}
                 />
               </View>
             <Text style={[styles.text_footer, {
@@ -123,7 +111,7 @@ const RegisterScreen = ({navigation}) => {
                     value = {email}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChange={updateEmail}
+                    onChangeText={(text) => setEmail(text)}
                 />
                
             </View>
@@ -145,7 +133,7 @@ const RegisterScreen = ({navigation}) => {
                     value = {password}
                     name = "userPassword"
                     autoCapitalize="none"
-                    onChange={updatePassword}
+                    onChangeText={(text) => setPassword(text)}
                 />
                
             </View>
@@ -167,7 +155,7 @@ const RegisterScreen = ({navigation}) => {
                     id = "userConfirmPassword"
                     value = {confirmpassword}
                     autoCapitalize="none"
-                    onChange={updateConfirmPassword}
+                    onChangeText={(text) => setConfirmPassword(text)}
                 />
             </View>
             <View style={styles.textPrivate}>
@@ -181,17 +169,7 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                //     onClick={firebase.auth().createUserWithEmailAndPassword(email, password)
-                //     .then((userCredential) => {
-                //         var user = userCredential.user;
-                //     })
-                // .catch ((error) => {
-                //     var errorCode = error.code;
-                //     var errorMessage = error.message;
-
-                // })}
-                    onPress={() => navigation.navigate('LoginScreen')}
-
+                    onPress={register}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

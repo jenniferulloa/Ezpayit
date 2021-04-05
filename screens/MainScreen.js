@@ -14,29 +14,49 @@ import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Avatar} from "react-native-elements";
 
 import {screenHeight, screenWidth} from '../config/dimension';
+
+import {auth} from "../firebase";
 
 const MainScreen = ({navigation}) => {
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   });
-  var total_balance = 2999.99
+
+  var total_balance = 2999.99;
+
+  const logout = () => {
+    auth.signOut()
+    .then(() => {
+        navigation.replace('LoginScreen')
+      })
+  }
+
   return (
 
     <View style={styles.container}>    
         <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
         <View style={[styles.header1]}>
         <TouchableOpacity
-        onPress={() => navigation.openDrawer()}
+        // onPress={() => navigation.openDrawer()}
         >
           {/* 3 bar menu drop down */}
           <Entypo name='menu' color='white' size={30}/>
+
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={logout}
+            >
+          <AntDesign name='logout' color='white' size={20}/>
           </TouchableOpacity>
         </View>
+
         <View style={[styles.header2]}>
+            <Text style={{fontSize:30, color:'#ffffff',textAlign: 'center'}}>{auth?.currentUser?.displayName}</Text>
             <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(total_balance)}</Text>
             <Text style={{fontSize:16,color:'#F8F9FA',alignItems: 'center',textAlign: 'center'}}> Available Balance</Text>
     
@@ -131,21 +151,6 @@ const MainScreen = ({navigation}) => {
                 </LinearGradient>
                 </TouchableOpacity>
       </View>
-      {/* <TouchableOpacity
-                    onPress={() => navigation.navigate('LoginScreen')}
-                    style={[styles.blogout,{
-                      marginBottom: 30
-                    }]}
-                >
-                <LinearGradient
-                    colors={['#696FE2', '#7158B7']}
-                    style={styles.blogout}
-                >
-                    <Text style={[styles.text1, {
-                        color:'#fff'
-                    }]}>Log Out</Text>
-                </LinearGradient>
-                </TouchableOpacity> */}
 
         </Animatable.View>
         </View>
@@ -162,18 +167,20 @@ const styles = StyleSheet.create({
   },
   header1: {
       flex: 0.15,
-      //justifyContent: 'flex-end',
       flexDirection:'row',
       paddingHorizontal: 30,
       paddingBottom: 2,
       marginTop:50,
-      //justifyContent: 'center',
+      justifyContent:'space-between',
+    //   alignContent:'center',
+      alignItems:'center'
+      
   },
   header2: {
     flex: 0.45,
    // justifyContent: 'flex-end',
    flexDirection:'column',
-    paddingBottom: 2,
+    paddingBottom: 5,
     justifyContent: 'center',
 },
   footer: {
