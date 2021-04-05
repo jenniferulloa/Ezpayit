@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     View, 
     Text, 
@@ -20,7 +20,7 @@ import VirtualKeyboard from 'react-native-virtual-keyboard';
 import LoginScreen from './LoginScreen';
 import RecipientsScreen from './RecipientsScreen';
 
-
+// npm install -g firebase-tools
 // import { useTheme } from 'react-native-paper';
 
 //import { AuthContext } from '../components/context';
@@ -29,9 +29,11 @@ import RecipientsScreen from './RecipientsScreen';
 
 const TransferScreen = ({navigation}) => {
 
-    const [data, setData] = React.useState({
-        amount: '',
-    });
+    const [amount,setAmount] = useState('')
+
+    // const [data, setData] = React.useState({
+    //     amount: '',
+    // });
 
 
     const updateSecureTextEntry = () => {
@@ -41,7 +43,9 @@ const TransferScreen = ({navigation}) => {
         });
     }
 
-
+    const textInputChange = (value) => {
+        setAmount(value)
+    }
     
     return (
       <View style={styles.container}>
@@ -55,13 +59,14 @@ const TransferScreen = ({navigation}) => {
         >
             <View style={styles.header}>
             <Text style={styles.textSign}> Amount You Would Like to Transfer:</Text>
+            <Text style={styles.amount}>${amount}</Text>
+            {/* <Text style={styles.text_header}>{"\n"}</Text>
             <Text style={styles.text_header}>{"\n"}</Text>
             <Text style={styles.text_header}>{"\n"}</Text>
             <Text style={styles.text_header}>{"\n"}</Text>
-            <Text style={styles.text_header}>{"\n"}</Text>
-            <Text style={styles.text_header}>{"\n"}</Text>
+            <Text style={styles.text_header}>{"\n"}</Text> */}
             <Text style={styles.text_header}>Your Current Balance Is:</Text>
-            <Text style={styles.text_header}>$50</Text>
+            <Text style={styles.text_header}>$2999.99</Text>
             {/* <TextInput
                 keyboardType={'numeric'}
                 onChangeText={(setCurrentValue) => this.setState({ setCurrentValue })}
@@ -70,7 +75,8 @@ const TransferScreen = ({navigation}) => {
                 color='purple' 
                 //pressMode='numeric' 
                 //This is what needs to be worked on
-                onPress={(amount) => textInputChange(amount)}
+                pressMode='string'
+                onPress={(val) => textInputChange(val)}
             /> 
             <View style={styles.button}>
                 <TouchableOpacity
@@ -102,6 +108,14 @@ const styles = StyleSheet.create({
     container: {
       flex: 1, 
       backgroundColor: '#6970E3'
+    },
+    amount:{
+        flex:1,
+        justifyContent:'center',
+        textAlign:'center',
+        fontSize: 80,
+        color: '#696FE2',
+        paddingTop:100,
     },
     header: {
         flex: 1,
@@ -166,6 +180,7 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign:'center'
     }
   });

@@ -8,6 +8,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import StackScreen from './screens/StackScreen';
 //import firebase from './src/firebase';
+
+import'intl';
+import'intl/locale-data/jsonp/en'
+
+
 const App = () =>  {
   return (
     <NavigationContainer>

@@ -146,7 +146,7 @@ const LoginScreen = ({navigation}) => {
                     name = "userPassword"
                     value = {password}
                     id = "userPassword"
-                    //secureTextEntry={event.secureTextEntry ? true : false}
+                    secureTextEntry={true}
                     style={styles.textInput}
                     autoCapitalize="none"
                     onChangeText={(event) => onChangeHandler(event)}
@@ -177,7 +177,8 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('BottomTabScreen')}
+                    // onPress={() => navigation.navigate('BottomTabScreen')}
+                    onPress={() => navigation.navigate('MainScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

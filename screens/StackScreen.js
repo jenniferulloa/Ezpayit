@@ -21,9 +21,10 @@ const StackScreen = ({navigation}) => (
         <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
         <Stack.Screen name="RegisterScreen" component={RegisterScreen}/>
-        {/* <Stack.Screen name="TransferScreen" component={TransferScreen}/>
+        <Stack.Screen name="MainScreen" component={MainScreen}/>
+        <Stack.Screen name="TransferScreen" component={TransferScreen}/>
         <Stack.Screen name="RecipientsScreen" component={RecipientsScreen}/>
-        <Stack.Screen name="BottomTabScreen" component={BottomTabScreen}/> */}
+        {/* <Stack.Screen name="BottomTabScreen" component={BottomTabScreen}/> */}
 
     </Stack.Navigator>
 );

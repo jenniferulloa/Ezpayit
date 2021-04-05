@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 //import firebaseConfig from 'firebase';
-import "firebase/auth";
-import "firebase/firestore";
+// import "firebase/auth";
+// import "firebase/firestore";
 import { Link } from "@reach/router";
 import { 
     View, 
@@ -21,7 +21,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MainScreen from './MainScreen'
 import { set } from 'react-native-reanimated';
 
-firebase.initializeApp() 
+// firebase.initializeApp() 
 
 const RegisterScreen = ({navigation}) => {
 
@@ -139,7 +139,7 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your Password"
-                    //secureTextEntry={password.secureTextEntry ? true : false}
+                    secureTextEntry={rue}
                     style={styles.textInput}
                     id = "userPassword"
                     value = {password}
@@ -181,15 +181,15 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onClick={firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        var user = userCredential.user;
-                    })
-                .catch ((error) => {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
+                //     onClick={firebase.auth().createUserWithEmailAndPassword(email, password)
+                //     .then((userCredential) => {
+                //         var user = userCredential.user;
+                //     })
+                // .catch ((error) => {
+                //     var errorCode = error.code;
+                //     var errorMessage = error.message;
 
-                })}
+                // })}
                     onPress={() => navigation.navigate('LoginScreen')}
 
                 >

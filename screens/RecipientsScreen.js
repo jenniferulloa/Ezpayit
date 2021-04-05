@@ -39,12 +39,12 @@ const RecipientsScreen = ({navigation}) => {
             style={styles.footer}
         >
             <View >
-            <Text style={styles.item}>Don</Text>
-            <Text style={styles.item}> abc@gmail.com </Text>
+            <Text style={styles.item}>Rick H. Haas</Text>
+            <Text style={styles.item}> RickHHaas@rhyta.com </Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('LoginScreen')}
+                    onPress={() => navigation.navigate('MainScreen')}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -60,12 +60,12 @@ const RecipientsScreen = ({navigation}) => {
 
             </View>
             <Text style={styles.item}>{"\n"}{"\n"} </Text>
-            <Text style={styles.item}>Don</Text> 
-            <Text style={styles.item}>abc@gmail.com</Text>
+            <Text style={styles.item}>Barbara J. Wenz</Text> 
+            <Text style={styles.item}>BarbaraJWenz@jourrapide.com</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('LoginScreen')}
+                    onPress={() => navigation.navigate('MainScreen')}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -81,12 +81,12 @@ const RecipientsScreen = ({navigation}) => {
 
             </View>
             <Text style={styles.item}>{"\n"}{"\n"} </Text>
-            <Text style={styles.item}>Don</Text>
-            <Text style={styles.item}>abc@gmail.com</Text>
+            <Text style={styles.item}>Steven F. Burgess</Text>
+            <Text style={styles.item}>StevenFBurgess@rhyta.com</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('LoginScreen')}
+                    onPress={() => navigation.navigate('MainScreen')}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -106,7 +106,7 @@ const RecipientsScreen = ({navigation}) => {
              <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('LoginScreen')}
+                    onPress={() => navigation.navigate('MainScreen')}
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
