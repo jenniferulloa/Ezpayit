@@ -37,10 +37,12 @@ const LoginScreen = ({navigation}) => {
 
     const signingIn = () => {
         auth.signInWithEmailAndPassword(email,password)
-        .then(()=>{
+        .then((authUser)=>{
+            console.log(authUser)
             navigation.navigate('MainScreen')
         })
-        .catch((error) => alert(error));
+        
+        .catch((error) => alert(error.message));
     }
     
     return (
