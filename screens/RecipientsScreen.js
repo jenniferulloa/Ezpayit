@@ -17,7 +17,20 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
+<<<<<<< HEAD
 import { ScrollView } from 'react-native-gesture-handler';
+=======
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+import { ScrollView } from 'react-native-gesture-handler';
+//import Accordion from 'react-bootstrap/Accordion'
+
+// import { useTheme } from 'react-native-paper';
+
+//import { AuthContext } from '../components/context';
+
+//import Users from '../model/users';
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
 
 const RecipientsScreen = ({navigation}) => {
 
@@ -26,6 +39,7 @@ const RecipientsScreen = ({navigation}) => {
         Info: '',
     });
 
+<<<<<<< HEAD
     const alertSubmit = () => {
         Alert.alert(
         "Transfer complete",
@@ -35,25 +49,44 @@ const RecipientsScreen = ({navigation}) => {
     )
 
     }
+=======
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
 
     
     return (
     <ScrollView style={styles.container}>
+<<<<<<< HEAD
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
         <View style={styles.header}>
             <Text style={[styles.text_header,{marginTop: 25 }]}>Select a Recipient:</Text>
+=======
+        <Text>{"\n\n\n\n\n"}</Text>
+          <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
+        <View style={styles.header}>
+            <Text style={styles.text_header}>Select a Recipient:</Text>
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
         </View>
         <Animatable.View 
             animation="fadeInUpBig"
             style={styles.footer}
         >
             <View >
+<<<<<<< HEAD
             <Text style={styles.item}>Rick H. Haas</Text>
             <Text style={styles.item}> RickHHaas@rhyta.com </Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
                     onPress={alertSubmit}
+=======
+            <Text style={styles.name}>Dana McDonald</Text>
+            <Text style={styles.item}>(214)123 - 2323 </Text>
+            <Text style={styles.item}>Dana123@gmail.com</Text>
+            <View style={styles.button}>
+                <TouchableOpacity
+                    style={styles.Login}
+                    onPress={() => navigation.navigate('LoginScreen')}
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -69,12 +102,22 @@ const RecipientsScreen = ({navigation}) => {
 
             </View>
             <Text style={styles.item}>{"\n"}{"\n"} </Text>
+<<<<<<< HEAD
             <Text style={styles.item}>Barbara J. Wenz</Text> 
             <Text style={styles.item}>BarbaraJWenz@jourrapide.com</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
                     onPress={alertSubmit}
+=======
+            <Text style={styles.name}>John Smith</Text> 
+            <Text style={styles.item}>johnS51@gmail.com</Text>
+            <Text style={styles.item}>(214)678-9876</Text>
+            <View style={styles.button}>
+                <TouchableOpacity
+                    style={styles.Login}
+                    onPress={() => navigation.navigate('LoginScreen')}
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -90,12 +133,22 @@ const RecipientsScreen = ({navigation}) => {
 
             </View>
             <Text style={styles.item}>{"\n"}{"\n"} </Text>
+<<<<<<< HEAD
             <Text style={styles.item}>Steven F. Burgess</Text>
             <Text style={styles.item}>StevenFBurgess@rhyta.com</Text>
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
                     onPress={alertSubmit}
+=======
+            <Text style={styles.name}>Don Hathway</Text>
+            <Text style={styles.item}>(469)222-5657</Text>
+            <Text style={styles.item}>donh232@gmail.com</Text>
+            <View style={styles.button}>
+                <TouchableOpacity
+                    style={styles.Login}
+                    onPress={() => navigation.navigate('LoginScreen')}
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -115,7 +168,11 @@ const RecipientsScreen = ({navigation}) => {
              <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
+<<<<<<< HEAD
                     onPress={alertSubmit}
+=======
+                    onPress={() => navigation.navigate('LoginScreen')}
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                     //This is what needs to be worked on
                     //onPress={() => {RecipientsScreen}}
                 >
@@ -153,16 +210,33 @@ const styles = StyleSheet.create({
          fontWeight: 'bold',
          backgroundColor: 'white',
        },
+<<<<<<< HEAD
        item: {
          padding: 10,
          fontSize: 18,
          height: 44,
        },
+=======
+       name: {
+         padding: 10,
+         fontSize: 22,
+         fontWeight: 'bold',
+         height: 44,
+       },
+       item: {
+        fontSize: 18,
+        paddingLeft: 10
+      },
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
     header: {
         flex: 1,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
+<<<<<<< HEAD
         paddingBottom: 20
+=======
+        paddingBottom: 50
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
     },
     footer: {
         flex: 3,
@@ -218,7 +292,15 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     textSign: {
+<<<<<<< HEAD
         fontSize: 14,
         fontWeight: 'bold'
     }
   });
+=======
+        fontSize: 18,
+        fontWeight: 'bold'
+    }
+  });
+
+>>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
