@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import { Router } from "@reach/router";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import MainScreen from "./screens/MainScreen";
-import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
-import StackScreen from './screens/StackScreen';
-//import firebase from './src/firebase';
-
-import'intl';
-import'intl/locale-data/jsonp/en'
-
-
-const App = () =>  {
-=======
 import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -32,7 +14,6 @@ import LoginScreen from './screens/LoginScreen';
 
 const App = () =>  {
  
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
   return (
     <NavigationContainer>
     <StackScreen/>
@@ -42,10 +23,7 @@ const App = () =>  {
         {/* <Stack.Screen name='Home' component={mainScreen}/> */}
       
     </NavigationContainer>
-<<<<<<< HEAD
-=======
     
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
   );
 }
 
@@ -58,10 +36,6 @@ const styles = StyleSheet.create({
   },
 
 });
-<<<<<<< HEAD
-export default App;
-=======
 
 export default App;
 
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824

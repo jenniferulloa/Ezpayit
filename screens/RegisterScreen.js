@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-//import firebaseConfig from 'firebase';
-// import "firebase/auth";
-// import "firebase/firestore";
-import { Link } from "@reach/router";
-=======
 import React from 'react';
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
 import { 
     View, 
     Text, 
@@ -22,35 +14,6 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-<<<<<<< HEAD
-import MainScreen from './MainScreen'
-import { set } from 'react-native-reanimated';
-
-import {auth} from "../firebase";
-
-const RegisterScreen = ({navigation}) => {
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [first_name, setFirstName] = useState("");
-    const [last_name, setLastName] = useState("");
-    const [error, setError] = useState(null);
-    const [confirmpassword, setConfirmPassword] = useState("");
-
-    
-    const register = () => {
-        auth.createUserWithEmailAndPassword(email,password)
-        .then((authUser) => {
-            authUser.user.updateProfile({
-                displayName: first_name,
-            });
-        console.log(authUser)
-        console.log(authUser.user.displayName)
-        })
-        .catch((error) => alert(error.message));
-    };
-    
-=======
 
 const RegisterScreen = ({navigation}) => {
 
@@ -109,7 +72,6 @@ const RegisterScreen = ({navigation}) => {
         });
     }
 
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
@@ -131,20 +93,9 @@ const RegisterScreen = ({navigation}) => {
                 <TextInput 
                     placeholder="Your first name"
                     style={styles.textInput}
-<<<<<<< HEAD
-                    name = "userFirstName"
-                    id = "userFirstName"
-                    type="text"
-                    value = {first_name}
-                    autoCapitalize="none"
-                    onChangeText={(text) => setFirstName(text)}
-                />
-         
-=======
                     autoCapitalize="none"
                //     onChangeText={(val) => textInputChange(val)}
                 />
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
               </View>
 
                 <Text style={[styles.text_footer, {
@@ -156,22 +107,11 @@ const RegisterScreen = ({navigation}) => {
                     color="#05375a"
                     size={20}
                 />
-<<<<<<< HEAD
-                <TextInput
-                    placeholder="Your last name"
-                    style={styles.textInput}
-                    id = "userLastName"
-                    name = "userLastName"
-                    value = {last_name}
-                    autoCapitalize="none"
-                    onChangeText={(text) => setLastName(text)}
-=======
                 <TextInput 
                     placeholder="Your last name"
                     style={styles.textInput}
                     autoCapitalize="none"
                    // onChangeText={(val) => textInputChange(val)}
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                 />
               </View>
             <Text style={[styles.text_footer, {
@@ -185,16 +125,6 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your email"
-<<<<<<< HEAD
-                    id = "userEmail"
-                    name = "userEmail"
-                    value = {email}
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    onChangeText={(text) => setEmail(text)}
-                />
-               
-=======
                     style={styles.textInput}
                     autoCapitalize="none"
                     onChangeText={(val) => textInputChange(val)}
@@ -210,7 +140,6 @@ const RegisterScreen = ({navigation}) => {
                     />
                 </Animatable.View>
                 : null}
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
             </View>
 
             <Text style={[styles.text_footer, {
@@ -224,17 +153,6 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your Password"
-<<<<<<< HEAD
-                    secureTextEntry
-                    style={styles.textInput}
-                    id = "userPassword"
-                    value = {password}
-                    name = "userPassword"
-                    autoCapitalize="none"
-                    onChangeText={(text) => setPassword(text)}
-                />
-               
-=======
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput}
                     autoCapitalize="none"
@@ -257,7 +175,6 @@ const RegisterScreen = ({navigation}) => {
                     />
                     }
                 </TouchableOpacity>
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
             </View>
 
             <Text style={[styles.text_footer, {
@@ -271,16 +188,6 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Confirm Your Password"
-<<<<<<< HEAD
-                    secureTextEntry
-                    style={styles.textInput}
-                    name = "userConfirmPassword"
-                    id = "userConfirmPassword"
-                    value = {confirmpassword}
-                    autoCapitalize="none"
-                    onChangeText={(text) => setConfirmPassword(text)}
-                />
-=======
                     secureTextEntry={data.confirm_secureTextEntry ? true : false}
                     style={styles.textInput}
                     autoCapitalize="none"
@@ -303,7 +210,6 @@ const RegisterScreen = ({navigation}) => {
                     />
                     }
                 </TouchableOpacity>
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
             </View>
             <View style={styles.textPrivate}>
                 <Text style={styles.color_textPrivate}>
@@ -316,11 +222,7 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-<<<<<<< HEAD
-                    onPress={register}
-=======
                     onPress={() => {}}
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -333,11 +235,7 @@ const RegisterScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-<<<<<<< HEAD
-                    onPress={() => navigation.navigate('LoginScreen')}
-=======
                     onPress={() => navigation.goBack()}
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                     style={[styles.Login, {
                         borderColor: '#7D2AE8',
                         borderWidth: 1,

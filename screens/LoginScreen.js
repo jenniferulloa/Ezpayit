@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { Link } from "@reach/router";
-=======
 import React from 'react';
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
 import { 
     View, 
     Text, 
@@ -21,35 +16,6 @@ import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
-<<<<<<< HEAD
-import {auth} from "../firebase";
-
-
-const LoginScreen = ({navigation}) => {
-
-    const[email, setEmail] = useState("");
-    const[password,setPassword] = useState("");
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((authUser) => {
-            if(authUser){
-                navigation.replace("MainScreen")
-            }
-        });
-
-        return unsubscribe;
-    },[])
-
-    const signingIn = () => {
-        auth.signInWithEmailAndPassword(email,password)
-        .then((authUser)=>{
-            console.log(authUser)
-            navigation.navigate('MainScreen')
-        })
-        
-        .catch((error) => alert(error.message));
-    }
-=======
 // import { useTheme } from 'react-native-paper';
 
 //import { AuthContext } from '../components/context';
@@ -101,7 +67,6 @@ const LoginScreen = ({navigation}) => {
     }
 
 
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
     
     return (
       <View style={styles.container}>
@@ -123,18 +88,6 @@ const LoginScreen = ({navigation}) => {
                 <TextInput 
                     placeholder="Your email"
                     style={styles.textInput}
-<<<<<<< HEAD
-                    name = "userEmail"
-                    value = {email}
-                    id = "userEmail"
-                    autoCapitalize="none"
-                    onChangeText = {(text) => setEmail(text)}
-
-                />
-                
-            </View>
-           
-=======
                     autoCapitalize="none"
                     onChangeText={(val) => textInputChange(val)}
                    // onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
@@ -156,7 +109,6 @@ const LoginScreen = ({navigation}) => {
             <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
             </Animatable.View>
             } */}
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
         
             <Text style={[styles.text_footer,{
                 marginTop: 35
@@ -169,18 +121,6 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your password"
-<<<<<<< HEAD
-                    name = "userPassword"
-                    value = {password}
-                    id = "userPassword"
-                    secureTextEntry={true}
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    onChangeText = {(text) => setPassword(text)}
-                    // onChangeText={(event) => onChangeHandler(event)}
-                />
-               
-=======
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput}
                     autoCapitalize="none"
@@ -203,7 +143,6 @@ const LoginScreen = ({navigation}) => {
                     />
                     }
                 </TouchableOpacity>
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
             </View>
    
 
@@ -213,13 +152,8 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-<<<<<<< HEAD
-                    // onPress={() => navigation.navigate('BottomTabScreen')}
-                    onPress={signingIn}
-=======
                     onPress={() => navigation.navigate('TransferScreen')}
                  //   onPress={() => {loginHandle( data.email, data.password )}}
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

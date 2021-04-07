@@ -69,11 +69,7 @@ const height_logo = height * 0.2;
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-<<<<<<< HEAD
-    backgroundColor: 'white'
-=======
     backgroundColor: '#6970E3'
->>>>>>> cb05f5495dd572ed7ec00fd235c90c58a5120824
   },
   header: {
       flex: 2.5,
