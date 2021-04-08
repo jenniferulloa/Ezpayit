@@ -21,7 +21,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MainScreen from './MainScreen'
 import { set } from 'react-native-reanimated';
 
-import {auth} from "../firebase";
+import {auth,createUserDocument, db} from "../firebase";
 
 const RegisterScreen = ({navigation}) => {
 
@@ -32,18 +32,36 @@ const RegisterScreen = ({navigation}) => {
     const [error, setError] = useState(null);
     const [confirmpassword, setConfirmPassword] = useState("");
 
-    
+
     const register = () => {
         auth.createUserWithEmailAndPassword(email,password)
         .then((authUser) => {
+            // firebase.database().ref('Users' + firebase.auth().currentUser.uid + "Profile").set(firebase.auth().currentUser);
+            // return db.collection('Users').doc(uid).add({
+            //      first: first_name,
+            //      last: last_name,
+            //      email: email
+            //  })
             authUser.user.updateProfile({
+                //displayName = first_name,
                 displayName: first_name,
+
             });
+            firebase.database().ref('Users' + firebase.auth().currentUser.uid + "Profile").set(firebase.auth().currentUser);
+
         console.log(authUser)
-        console.log(authUser.user.displayName)
+        //console.log(usersRef)
         })
         .catch((error) => alert(error.message));
     };
+    const userRef = db.collection('Users').doc(currentUser.uid);
+    const res = await userRef.set({
+        first: first_name,
+        last: last_name,
+        email: email
+      }, { merge: true });
+      
+
     
     return (
       <View style={styles.container}>

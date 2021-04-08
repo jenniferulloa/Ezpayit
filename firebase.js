@@ -23,4 +23,27 @@ if(firebase.apps.length === 0){
 const db = app.firestore();
 const auth = firebase.auth();
 
-export {db, auth}
+export {db, auth};
+
+export const createUserDocument = async(user, additionalData) => {
+  if(!user) return;
+  const userRef = firestore.doc(`users/${user.uid}`); 
+  const snapshot = await userRef.get();
+
+  if(!snapshot.exists)
+  {
+    const {email} = user;
+    const {displayName} = additionalData;
+
+    try {
+      userRef.set({
+        displayName,
+        email,
+        createdAt: new Date()
+      })
+    }catch(error)
+    {
+      console.log('Error in creating user doc in firestore')
+    }
+  }
+};
