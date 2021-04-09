@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from "@reach/router";
 import { 
     View, 
@@ -16,34 +16,28 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
-import {auth} from "../firebase";
+import {logIn} from '../config/firebaseMethods';
 
 
 const LoginScreen = ({navigation}) => {
 
-    const[email, setEmail] = useState("");
-    const[password,setPassword] = useState("");
+    const[email, setEmail] = useState('');
+    const[password,setPassword] = useState('');
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((authUser) => {
-            if(authUser){
-                navigation.replace("MainScreen")
-            }
-        });
-
-        return unsubscribe;
-    },[])
-
-    const signingIn = () => {
-        auth.signInWithEmailAndPassword(email,password)
-        .then((authUser)=>{
-            console.log(authUser)
-            navigation.navigate('MainScreen')
-        })
-        
-        .catch((error) => alert(error.message));
-    }
+    const handlePress = () => {
+        if (!email) {
+          Alert.alert('Email field is required.');
+        }
+    
+        if (!password) {
+          Alert.alert('Password field is required.');
+        }
+    
+        logIn(email, password);
+        setEmail('');
+        setPassword('');
+        navigation.navigate('LoadingScreen');
+      };
     
     return (
       <View style={styles.container}>
@@ -65,11 +59,10 @@ const LoginScreen = ({navigation}) => {
                 <TextInput 
                     placeholder="Your email"
                     style={styles.textInput}
-                    name = "userEmail"
                     value = {email}
-                    id = "userEmail"
                     autoCapitalize="none"
-                    onChangeText = {(text) => setEmail(text)}
+                    keyboardType = 'email-address'
+                    onChangeText = {(email) => setEmail(email)}
 
                 />
                 
@@ -87,14 +80,11 @@ const LoginScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your password"
-                    name = "userPassword"
                     value = {password}
-                    id = "userPassword"
                     secureTextEntry={true}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText = {(text) => setPassword(text)}
-                    // onChangeText={(event) => onChangeHandler(event)}
+                    onChangeText = {(password) => setPassword(password)}
                 />
                
             </View>
@@ -106,8 +96,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    // onPress={() => navigation.navigate('BottomTabScreen')}
-                    onPress={signingIn}
+                    onPress={handlePress}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

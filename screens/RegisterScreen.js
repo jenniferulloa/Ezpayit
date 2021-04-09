@@ -12,6 +12,7 @@ import {
     TextInput,
     StyleSheet,
     ScrollView,
+    Alert,
     StatusBar
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -20,36 +21,50 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import MainScreen from './MainScreen'
 import { set } from 'react-native-reanimated';
-import * as firebase from "../firebase"
-import {auth,db} from "../firebase";
+import { registration } from '../config/firebaseMethods';
+
 
 const RegisterScreen = ({navigation}) => {
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [first_name, setFirstName] = useState("");
-    const [last_name, setLastName] = useState("");
-    const [error, setError] = useState(null);
-    const [confirmpassword, setConfirmPassword] = useState("");
-
-
-    const register = () => {
-        auth.createUserWithEmailAndPassword(email,password)
-        .then((authUser) => {
-            // db.collection("Users").doc(authUser.uid).set({
-            //     email:email,
-            //     first_name:first_name,
-            //     last_name:last_name
-            // })
-            console.log(authUser)
-            console.log(authUser.uid)
-            authUser.user.updateProfile({
-                displayName: first_name,
-            });
-        
-        
-        })
-        .catch((error) => alert(error.message));
+    const [firstName, setFirstName] = useState('');
+    var created_at = Date.now();
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+  
+    const emptyState = () => {
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    };
+  
+    const handlePress = () => {
+      if (!firstName) {
+        Alert.alert('First name is required');
+      } else  if (!lastName) {
+        Alert.alert('First name is required');
+      } else if (!email) {
+        Alert.alert('Email field is required.');  
+      } else if (!password) {
+        Alert.alert('Password field is required.');
+      } else if (!confirmPassword) {
+        setPassword('');
+        Alert.alert('Confirm password field is required.');
+      } else if (password !== confirmPassword) {
+        Alert.alert('Password does not match!');
+      } else {
+        registration(
+          email,
+          password,
+          lastName,
+          firstName,
+          created_at
+        );
+        navigation.navigate('LoadingScreen');
+        emptyState();
+      }
     };
     
     return (
@@ -73,11 +88,11 @@ const RegisterScreen = ({navigation}) => {
                 <TextInput 
                     placeholder="Your first name"
                     style={styles.textInput}
-                    name = "userFirstName"
-                    id = "userFirstName"
                     type="text"
-                    value = {first_name}
-                    autoCapitalize="none"
+                    value = {firstName}
+                    autoCapitalize="words"
+                    autoCompleteType ='off'
+                    autoCorrect = {false}
                     onChangeText={(text) => setFirstName(text)}
                 />
          
@@ -95,10 +110,8 @@ const RegisterScreen = ({navigation}) => {
                 <TextInput
                     placeholder="Your last name"
                     style={styles.textInput}
-                    id = "userLastName"
-                    name = "userLastName"
-                    value = {last_name}
-                    autoCapitalize="none"
+                    value = {lastName}
+                    autoCapitalize="words"
                     onChangeText={(text) => setLastName(text)}
                 />
               </View>
@@ -113,12 +126,11 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your email"
-                    id = "userEmail"
-                    name = "userEmail"
                     value = {email}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(text) => setEmail(text)}
+                    onChangeText={(email) => setEmail(email)}
+                    keyboardType = 'email-address'
                 />
                
             </View>
@@ -134,13 +146,11 @@ const RegisterScreen = ({navigation}) => {
                 />
                 <TextInput 
                     placeholder="Your Password"
-                    secureTextEntry
+                    secureTextEntry ={true}
                     style={styles.textInput}
-                    id = "userPassword"
                     value = {password}
-                    name = "userPassword"
                     autoCapitalize="none"
-                    onChangeText={(text) => setPassword(text)}
+                    onChangeText={(password) => setPassword(password)}
                 />
                
             </View>
@@ -158,11 +168,9 @@ const RegisterScreen = ({navigation}) => {
                     placeholder="Confirm Your Password"
                     secureTextEntry
                     style={styles.textInput}
-                    name = "userConfirmPassword"
-                    id = "userConfirmPassword"
-                    value = {confirmpassword}
+                    value = {confirmPassword}
                     autoCapitalize="none"
-                    onChangeText={(text) => setConfirmPassword(text)}
+                    onChangeText={(password2) => setConfirmPassword(password2)}
                 />
             </View>
             <View style={styles.textPrivate}>
@@ -176,7 +184,7 @@ const RegisterScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={register}
+                    onPress={handlePress}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

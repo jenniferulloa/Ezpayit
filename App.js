@@ -9,10 +9,14 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator 
 import * as firebase from 'firebase';
 import apiKeys from './config/keys';
 import LoadingScreen from "./screens/LoadingScreen";
+import AddCard from "./screens/AddCard";
 import TransferScreen from './screens/TransferScreen';
 import SplashScreen from './screens/SplashScreen';
 import RecipientsScreen from './screens/RecipientsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
+
+import'intl';
+import'intl/locale-data/jsonp/en'
 
 const Stack = createStackNavigator();
 
@@ -32,7 +36,7 @@ const App = () =>  {
         <Stack.Screen name="TransferScreen" component={TransferScreen}/>
         <Stack.Screen name="RecipientsScreen" component={RecipientsScreen}/>
         <Stack.Screen name="LoadingScreen" component={LoadingScreen}/>
-
+        <Stack.Screen name="AddCard" component={AddCard}/>
     </Stack.Navigator>
       
     </NavigationContainer>

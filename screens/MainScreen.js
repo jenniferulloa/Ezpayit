@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { 
   StyleSheet,
   Text,
@@ -16,10 +16,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Avatar} from "react-native-elements";
+import * as firebase from 'firebase';
+import {logOut} from '../config/firebaseMethods';
+
 
 import {screenHeight, screenWidth} from '../config/dimension';
 
-import {auth} from "../firebase";
 
 const MainScreen = ({navigation}) => {
   var formatter = new Intl.NumberFormat('en-US', {
@@ -29,12 +31,42 @@ const MainScreen = ({navigation}) => {
 
   var total_balance = 2999.99;
 
-  const logout = () => {
-    auth.signOut()
-    .then(() => {
-        navigation.replace('LoginScreen')
-      })
-  }
+
+  let currentUserUID = firebase.auth().currentUser.uid;
+  const [firstName, setFirstName] = useState('');
+  const [didMount, setDidMount] = useState(false); 
+
+  useEffect(() => {
+    async function getUserInfo(){
+      try {
+      setDidMount(true);
+        let doc = await firebase
+          .firestore()
+          .collection('users')
+          .doc(currentUserUID)
+          .get();
+
+        if (!doc.exists){
+          Alert.alert('No user data found!')
+        } else {
+          let dataObj = doc.data();
+          setFirstName(dataObj.firstName)
+        }
+      } catch (err){
+      Alert.alert('Error:', err.message)
+      }
+    }
+    getUserInfo();
+    
+  })
+if(!didMount) {
+  return null;
+}
+
+  const handlePress = () => {
+    logOut();
+    navigation.replace('SplashScreen');
+  };
 
   return (
 
@@ -49,14 +81,14 @@ const MainScreen = ({navigation}) => {
 
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={logout}
+            onPress={handlePress}
             >
           <AntDesign name='logout' color='white' size={20}/>
           </TouchableOpacity>
         </View>
 
         <View style={[styles.header2]}>
-            <Text style={{fontSize:30, color:'#ffffff',textAlign: 'center'}}>{auth?.currentUser?.displayName}</Text>
+            <Text style={{fontSize:30, color:'#ffffff',textAlign: 'center'}}>{firstName}</Text>
             <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(total_balance)}</Text>
             <Text style={{fontSize:16,color:'#F8F9FA',alignItems: 'center',textAlign: 'center'}}> Available Balance</Text>
     
@@ -110,7 +142,7 @@ const MainScreen = ({navigation}) => {
                 </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                   // onPress={() => navigation.navigate('.....')}
+                    onPress={() => navigation.navigate('AddCard')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -121,7 +153,7 @@ const MainScreen = ({navigation}) => {
                         color:'#fff'
                     }]}>Add Card</Text>
                 </LinearGradient>
-                </TouchableOpacity>
+        </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
                    // onPress={() => navigation.navigate('.....')}
