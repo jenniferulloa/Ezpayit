@@ -20,8 +20,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import MainScreen from './MainScreen'
 import { set } from 'react-native-reanimated';
-
-import {auth} from "../firebase";
+import * as firebase from "../firebase"
+import {auth,db} from "../firebase";
 
 const RegisterScreen = ({navigation}) => {
 
@@ -32,15 +32,22 @@ const RegisterScreen = ({navigation}) => {
     const [error, setError] = useState(null);
     const [confirmpassword, setConfirmPassword] = useState("");
 
-    
+
     const register = () => {
         auth.createUserWithEmailAndPassword(email,password)
         .then((authUser) => {
+            // db.collection("Users").doc(authUser.uid).set({
+            //     email:email,
+            //     first_name:first_name,
+            //     last_name:last_name
+            // })
+            console.log(authUser)
+            console.log(authUser.uid)
             authUser.user.updateProfile({
                 displayName: first_name,
             });
-        console.log(authUser)
-        console.log(authUser.user.displayName)
+        
+        
         })
         .catch((error) => alert(error.message));
     };
