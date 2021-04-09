@@ -1,82 +1,41 @@
-import React, { useEffect } from 'react';
+import React from "react";
+import { Router } from "@reach/router";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import MainScreen from "./screens/MainScreen";
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-//import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import * as firebase from 'firebase';
+import apiKeys from './config/keys';
+import LoadingScreen from "./screens/LoadingScreen";
+import TransferScreen from './screens/TransferScreen';
+import SplashScreen from './screens/SplashScreen';
+import RecipientsScreen from './screens/RecipientsScreen';
+import {createStackNavigator} from '@react-navigation/stack';
 
-//import { useEffect } from 'react';
-
-import StackScreen from './screens/StackScreen';
-import DrawerScreen from './screens/DrawerScreen';
-
-
-
-
-//import { AuthContext } from './components/context';
+const Stack = createStackNavigator();
 
 const App = () =>  {
 
-  const initialLoginState = {
-    isLoading: true,
-    userName: null,
-    userToken: null,
-  };
-
-  const loginReducer = (prevState, action) => {
-    switch( action.type ) {
-      case 'RETRIEVE_TOKEN': 
-        return {
-          ...prevState,
-          userToken: action.token,
-          isLoading: false,
-        };
-      case 'LOGIN': 
-        return {
-          ...prevState,
-          userName: action.id,
-          userToken: action.token,
-          isLoading: false,
-        };
-      case 'LOGOUT': 
-        return {
-          ...prevState,
-          userName: null,
-          userToken: null,
-          isLoading: false,
-        };
-      case 'REGISTER': 
-        return {
-          ...prevState,
-          userName: action.id,
-          userToken: action.token,
-          isLoading: false,
-        };
-    }
-  };
-
-  const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
- 
+  if (!firebase.apps.length) {
+    console.log('Connected with Firebase')
+    firebase.initializeApp(apiKeys.firebaseConfig);
+  }
   return (
     <NavigationContainer>
-   {/* { loginState.userToken == null ? ( */}
-      <DrawerScreen/>
-    {/* )
-    :
-      <StackScreen/>
-    } */}
-  </NavigationContainer>
+    <Stack.Navigator headerMode='none'>
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen}/>
+        <Stack.Screen name="MainScreen" component={MainScreen}/>
+        <Stack.Screen name="TransferScreen" component={TransferScreen}/>
+        <Stack.Screen name="RecipientsScreen" component={RecipientsScreen}/>
+        <Stack.Screen name="LoadingScreen" component={LoadingScreen}/>
 
-
-
-    // <NavigationContainer>
-    // <StackScreen/>
-    //   {/* <Stack.Navigator screenOptions={globalScreenOptions}> */}
-    //     {/* <Stack.Screen name='Login' component={LoginScreen}/> */}
-    //     {/* <Stack.Screen name='Register' component={RegisterScreen}/> */}
-    //     {/* <Stack.Screen name='Home' component={mainScreen}/> */}
+    </Stack.Navigator>
       
-    // </NavigationContainer>
-    
+    </NavigationContainer>
   );
 }
 
@@ -89,6 +48,4 @@ const styles = StyleSheet.create({
   },
 
 });
-
 export default App;
-
