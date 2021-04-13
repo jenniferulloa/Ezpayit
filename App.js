@@ -13,6 +13,8 @@ import AddCard from "./screens/AddCard";
 import TransferScreen from './screens/TransferScreen';
 import SplashScreen from './screens/SplashScreen';
 import RecipientsScreen from './screens/RecipientsScreen';
+import AddMoneyScreen from './screens/AddMoneyScreen';
+import TransferMoneyScreen from './screens/TransferMoneyScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import'intl';
@@ -37,6 +39,8 @@ const App = () =>  {
         <Stack.Screen name="RecipientsScreen" component={RecipientsScreen}/>
         <Stack.Screen name="LoadingScreen" component={LoadingScreen}/>
         <Stack.Screen name="AddCard" component={AddCard}/>
+        <Stack.Screen name="AddMoneyScreen" component={AddMoneyScreen}/>
+        <Stack.Screen name="TransferMoneyScreen" component={TransferMoneyScreen}/>
     </Stack.Navigator>
       
     </NavigationContainer>

@@ -15,6 +15,8 @@ export async function registration(email, password, lastName, firstName, created
         lastName: lastName,
         firstName: firstName,
         created_at:created_at,
+        accountBalance:1000.00,
+        cryptoBalance:20000.00
       });
   } catch (err) {
     Alert.alert('Error:', err.message);
@@ -38,4 +40,3 @@ export async function logOut() {
     Alert.alert('Error:', err.message);
   }
 }
-

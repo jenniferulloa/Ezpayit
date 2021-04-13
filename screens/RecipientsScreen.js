@@ -18,22 +18,31 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
+import {db} from "../firebase"
 
-const RecipientsScreen = ({navigation}) => {
+const RecipientsScreen = ({navigation,route}) => {
 
     const [data, setData] = React.useState({
         Name: '',
         Info: '',
     });
 
+    const updateBalance = () => {
+        console.log(route.params.id)
+        console.log(typeof route.params.newAmount)
+        db.collection("users").doc(route.params.id).update({"accountBalance":route.params.newAmount})
+        navigation.navigate('MainScreen')
+    }
+
     const alertSubmit = () => {
         Alert.alert(
         "Transfer complete",
         "Notification will be sent shortly",
+        
         [
-          { text: "OK", onPress: () => navigation.navigate('MainScreen') }]
+            
+          { text: "OK", onPress: () => updateBalance() }]
     )
-
     }
 
     
@@ -54,8 +63,6 @@ const RecipientsScreen = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.Login}
                     onPress={alertSubmit}
-                    //This is what needs to be worked on
-                    //onPress={() => {RecipientsScreen}}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -75,8 +82,6 @@ const RecipientsScreen = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.Login}
                     onPress={alertSubmit}
-                    //This is what needs to be worked on
-                    //onPress={() => {RecipientsScreen}}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -96,8 +101,6 @@ const RecipientsScreen = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.Login}
                     onPress={alertSubmit}
-                    //This is what needs to be worked on
-                    //onPress={() => {RecipientsScreen}}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -115,9 +118,7 @@ const RecipientsScreen = ({navigation}) => {
              <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={alertSubmit}
-                    //This is what needs to be worked on
-                    //onPress={() => {RecipientsScreen}}
+                    // onPress={alertSubmit}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

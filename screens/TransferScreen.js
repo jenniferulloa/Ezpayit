@@ -20,21 +20,10 @@ import VirtualKeyboard from 'react-native-virtual-keyboard';
 import LoginScreen from './LoginScreen';
 import RecipientsScreen from './RecipientsScreen';
 
-// npm install -g firebase-tools
-// import { useTheme } from 'react-native-paper';
 
-//import { AuthContext } from '../components/context';
-
-//import Users from '../model/users';
-
-const TransferScreen = ({navigation}) => {
+const TransferScreen = ({navigation,route}) => {
 
     const [amount,setAmount] = useState('')
-
-    // const [data, setData] = React.useState({
-    //     amount: '',
-    // });
-
 
     const updateSecureTextEntry = () => {
         setData({
@@ -45,6 +34,14 @@ const TransferScreen = ({navigation}) => {
 
     const textInputChange = (value) => {
         setAmount(value)
+        
+    }
+
+    const transferAmount = () => {
+        console.log('transfer',typeof amount)
+        route.params.balance -= Number(amount)
+        console.log(typeof route.params.balance)
+        navigation.navigate('RecipientsScreen',{newAmount:route.params.balance, id:route.params.id})
     }
     
     return (
@@ -60,30 +57,20 @@ const TransferScreen = ({navigation}) => {
             <View style={styles.header}>
             <Text style={styles.textSign}> Amount You Would Like to Transfer:</Text>
             <Text style={styles.amount}>${amount}</Text>
-            {/* <Text style={styles.text_header}>{"\n"}</Text>
-            <Text style={styles.text_header}>{"\n"}</Text>
-            <Text style={styles.text_header}>{"\n"}</Text>
-            <Text style={styles.text_header}>{"\n"}</Text>
-            <Text style={styles.text_header}>{"\n"}</Text> */}
             <Text style={styles.text_header}>Your Current Balance Is:</Text>
-            <Text style={styles.text_header}>$2999.99</Text>
-            {/* <TextInput
-                keyboardType={'numeric'}
-                onChangeText={(setCurrentValue) => this.setState({ setCurrentValue })}
-            />  */}
+            <Text style={styles.text_header}>${route.params.balance}</Text>
+   
             <VirtualKeyboard 
                 color='purple' 
-                //pressMode='numeric' 
-                //This is what needs to be worked on
+
                 pressMode='string'
                 onPress={(val) => textInputChange(val)}
             /> 
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.Login}
-                    onPress={() => navigation.navigate('RecipientsScreen')}
-                    //This is what needs to be worked on
-                    //onPress={() => {RecipientsScreen}}
+                    onPress={() => transferAmount()}
+
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

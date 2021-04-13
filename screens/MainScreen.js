@@ -18,7 +18,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Avatar} from "react-native-elements";
 import * as firebase from 'firebase';
 import {logOut} from '../config/firebaseMethods';
-
+import Slick from "react-native-slick";
+import {db} from "../firebase"
+import {Alert} from 'react-native';
+import { useIsFocused } from "@react-navigation/native";
 
 import {screenHeight, screenWidth} from '../config/dimension';
 
@@ -29,12 +32,22 @@ const MainScreen = ({navigation}) => {
     currency: 'USD',
   });
 
-  var total_balance = 2999.99;
-
+  const isFocused = useIsFocused();
 
   let currentUserUID = firebase.auth().currentUser.uid;
   const [firstName, setFirstName] = useState('');
+  const [accountBalance, setAccountBalance] = useState(0);
+  const [cryptoBalance, setCryptoBalance] = useState(0);
+  const [updateBalance, setUpdateBalance] = useState(false);
   const [didMount, setDidMount] = useState(false); 
+
+  useEffect(()=>{
+    db.collection("users").doc(currentUserUID).get().then((doc)=>{
+      // console.log('data: ',doc.data())
+      setAccountBalance(doc.data().accountBalance)
+    });
+    // console.log('account balance:',accountBalance)
+  },[accountBalance, isFocused]);
 
   useEffect(() => {
     async function getUserInfo(){
@@ -51,6 +64,9 @@ const MainScreen = ({navigation}) => {
         } else {
           let dataObj = doc.data();
           setFirstName(dataObj.firstName)
+          // setAccountBalance(dataObj.accountBalance)
+          setCryptoBalance(dataObj.cryptoBalance)
+          // console.log(dataObj)
         }
       } catch (err){
       Alert.alert('Error:', err.message)
@@ -58,7 +74,10 @@ const MainScreen = ({navigation}) => {
     }
     getUserInfo();
     
-  })
+  },[])
+
+  
+
 if(!didMount) {
   return null;
 }
@@ -67,6 +86,7 @@ if(!didMount) {
     logOut();
     navigation.replace('SplashScreen');
   };
+
 
   return (
 
@@ -88,9 +108,19 @@ if(!didMount) {
         </View>
 
         <View style={[styles.header2]}>
-            <Text style={{fontSize:30, color:'#ffffff',textAlign: 'center'}}>{firstName}</Text>
-            <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(total_balance)}</Text>
+          <Text style={{fontSize:30, color:'#ffffff',textAlign: 'center'}}>{firstName}</Text>
+          <Slick style={styles.slick} showsButtons={true} loop={true} buttonWrapperStyle={{flex:1,flexDirection:'row',alignItems: 'center',paddingBottom:50}} showsPagination={false} nextButton={<Text style={styles.buttonText}>›</Text>} prevButton={<Text style={styles.buttonText}>‹</Text>}>
+            <View>
+            <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(accountBalance)}</Text>
             <Text style={{fontSize:16,color:'#F8F9FA',alignItems: 'center',textAlign: 'center'}}> Available Balance</Text>
+            </View>
+            <View>
+            <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(cryptoBalance)}</Text>
+            <Text style={{fontSize:16,color:'#F8F9FA',alignItems: 'center',textAlign: 'center'}}> Crypto Balance</Text>
+            </View>    
+          </Slick>
+          
+          
     
         </View>
         <Animatable.View 
@@ -100,7 +130,7 @@ if(!didMount) {
         <View style={styles.button}>
         <TouchableOpacity
                     style={styles.b1}
-                    onPress={() => navigation.navigate('TransferScreen')}
+                    onPress={() => navigation.navigate('TransferScreen',{balance:accountBalance, id:currentUserUID})}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -114,7 +144,7 @@ if(!didMount) {
                 </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                   // onPress={() => navigation.navigate('......')}
+                    onPress={() => navigation.navigate('AddMoneyScreen',{balance:accountBalance, id:currentUserUID})}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -197,6 +227,14 @@ const styles = StyleSheet.create({
     flex: 1, 
     backgroundColor: '#6970E3'
   },
+  buttonText:{
+    color:'white',
+    fontSize:70,
+    
+  },
+  slick:{
+    
+  },
   header1: {
       flex: 0.15,
       flexDirection:'row',
@@ -216,7 +254,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 },
   footer: {
-      flex: 3,
+      flex: 2,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
