@@ -13,6 +13,8 @@ import TransferScreen from './screens/TransferScreen';
 import SplashScreen from './screens/SplashScreen';
 import RecipientsScreen from './screens/RecipientsScreen';
 import {createStackNavigator} from '@react-navigation/stack';
+import UserProfileScreen from "./screens/UserProfileScreen";
+import AccountScreen from "./screens/AccountScreen";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +34,8 @@ const App = () =>  {
         <Stack.Screen name="TransferScreen" component={TransferScreen}/>
         <Stack.Screen name="RecipientsScreen" component={RecipientsScreen}/>
         <Stack.Screen name="LoadingScreen" component={LoadingScreen}/>
+        <Stack.Screen name="UserProfileScreen" component={UserProfileScreen}/>
+        <Stack.Screen name="AccountScreen" component={AccountScreen}/>
 
     </Stack.Navigator>
       
