@@ -16,6 +16,7 @@ import RecipientsScreen from './screens/RecipientsScreen';
 import AddMoneyScreen from './screens/AddMoneyScreen';
 import TransferMoneyScreen from './screens/TransferMoneyScreen';
 import {createStackNavigator} from '@react-navigation/stack';
+import UserProfileScreen from './screens/UserProfileScreen';
 
 import'intl';
 import'intl/locale-data/jsonp/en'
@@ -41,6 +42,7 @@ const App = () =>  {
         <Stack.Screen name="AddCard" component={AddCard}/>
         <Stack.Screen name="AddMoneyScreen" component={AddMoneyScreen}/>
         <Stack.Screen name="TransferMoneyScreen" component={TransferMoneyScreen}/>
+        <Stack.Screen name="UserProfileScreen" component={UserProfileScreen}/>
     </Stack.Navigator>
       
     </NavigationContainer>

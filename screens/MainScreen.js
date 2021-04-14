@@ -200,7 +200,7 @@ if(!didMount) {
                 </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                   //onPress={() => navigation.navigate('')}
+                    onPress={() => navigation.navigate('UserProfileScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
