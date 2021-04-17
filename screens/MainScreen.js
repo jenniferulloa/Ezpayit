@@ -84,7 +84,7 @@ if(!didMount) {
 
   const handlePress = () => {
     logOut();
-    navigation.replace('SplashScreen');
+    navigation.replace('LoginScreen');
   };
 
 

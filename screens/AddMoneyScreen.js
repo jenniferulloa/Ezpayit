@@ -68,7 +68,7 @@ const AddMoneyScreen = ({navigation,route}) => {
               <View style={styles.button}>
                   <TouchableOpacity
                       style={styles.Login}
-                      // onPress={alertSubmit}
+                      onPress={() => navigation.navigate('TransferMoneyScreen',{balance:route.params.balance, id:route.params.id})}
                   >
                   <LinearGradient
                       colors={['#696FE2', '#7158B7']}
@@ -93,7 +93,7 @@ const AddMoneyScreen = ({navigation,route}) => {
               <View style={styles.button}>
                   <TouchableOpacity
                       style={styles.Login}
-                      // onPress={alertSubmit}
+                      onPress={() => navigation.navigate('TransferMoneyScreen',{balance:route.params.balance, id:route.params.id})}
                   >
                   <LinearGradient
                       colors={['#696FE2', '#7158B7']}
