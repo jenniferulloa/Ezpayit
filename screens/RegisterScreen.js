@@ -44,7 +44,7 @@ const RegisterScreen = ({navigation}) => {
       if (!firstName) {
         Alert.alert('First name is required');
       } else  if (!lastName) {
-        Alert.alert('First name is required');
+        Alert.alert('Last name is required');
       } else if (!email) {
         Alert.alert('Email field is required.');  
       } else if (!password) {
@@ -111,7 +111,8 @@ const RegisterScreen = ({navigation}) => {
                     placeholder="Your last name"
                     style={styles.textInput}
                     value = {lastName}
-                    autoCapitalize="words"
+                    autoCompleteType ='off'
+                    autoCorrect = {false}
                     onChangeText={(text) => setLastName(text)}
                 />
               </View>
@@ -129,6 +130,7 @@ const RegisterScreen = ({navigation}) => {
                     value = {email}
                     style={styles.textInput}
                     autoCapitalize="none"
+                    autoCorrect = {false}
                     onChangeText={(email) => setEmail(email)}
                     keyboardType = 'email-address'
                 />
@@ -150,6 +152,7 @@ const RegisterScreen = ({navigation}) => {
                     style={styles.textInput}
                     value = {password}
                     autoCapitalize="none"
+                    autoCorrect = {false}
                     onChangeText={(password) => setPassword(password)}
                 />
                
@@ -170,6 +173,7 @@ const RegisterScreen = ({navigation}) => {
                     style={styles.textInput}
                     value = {confirmPassword}
                     autoCapitalize="none"
+                    autoCorrect = {false}
                     onChangeText={(password2) => setConfirmPassword(password2)}
                 />
             </View>
@@ -223,13 +227,13 @@ const styles = StyleSheet.create({
       backgroundColor: '#6970E3'
     },
     header: {
-        flex: 0.8,
+        flex: 0.7,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
-        paddingBottom: 50
+        paddingBottom: 20
     },
     footer: {
-        flex: 3.2,
+        flex: 3.3,
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
@@ -243,7 +247,7 @@ const styles = StyleSheet.create({
     },
     text_footer: {
         color: '#05375a',
-        fontSize: 18
+        fontSize: 16
     },
     action: {
         flexDirection: 'row',

@@ -6,17 +6,18 @@ import RegisterScreen from './RegisterScreen';
 export default function LoadingScreen({ navigation }) {
   useEffect( () => {
       firebase.auth().onAuthStateChanged((user) => {
+        <ActivityIndicator size='large' />
         if (user) {
-          navigation.replace('MainScreen');
+          navigation.replace('BottomTabScreen');
         } else {
-          navigation.goBack('RegisterScreen');
+          navigation.goBack();
         }
       });
     },[]);
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size='large' color="#0000ff"/>
+      <ActivityIndicator size='large' />
     </View>
   );
 }
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#6970E3',
     alignItems: 'center',
     justifyContent: 'center',
   },

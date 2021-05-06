@@ -18,14 +18,25 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
-import {db} from "../firebase"
 import { navigate } from '@reach/router';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const AddMoneyScreen = ({navigation,route}) => {
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
+   
+        <TouchableOpacity style={{marginLeft:30,marginTop:25}}
+        onPress={() => navigation.goBack()}
+        >
+             <FontAwesome 
+                    name="chevron-circle-left"
+                    color="#fff"
+                    size={30}
+                />
+          </TouchableOpacity>
+        
         <View style={styles.header}>
             <Text style={[styles.text_header,{marginTop: 25 }]}>Select a bank account to transfer from:</Text>
         </View>
@@ -33,7 +44,7 @@ const AddMoneyScreen = ({navigation,route}) => {
             animation="fadeInUpBig"
             style={styles.footer}
         >
-            <View >
+            <ScrollView >
             <View style={styles.line}>
               <Text style={styles.item}>Account Number: 097585209191202</Text>
               <View style={styles.bank}>
@@ -123,9 +134,9 @@ const AddMoneyScreen = ({navigation,route}) => {
                 </TouchableOpacity>
             </View>
 
-            </View>
+            </ScrollView>
         </Animatable.View>
-        </ScrollView>
+        </View>
   )
 }
 
@@ -162,13 +173,13 @@ const styles = StyleSheet.create({
        height: 44,
      },
   header: {
-      flex: 1,
+      flex: 0.5,
       justifyContent: 'flex-end',
       paddingHorizontal: 20,
       paddingBottom: 20
   },
   footer: {
-      flex: 3,
+      flex: 3.5,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
@@ -179,7 +190,7 @@ const styles = StyleSheet.create({
   text_header: {
       color: '#fff',
       fontWeight: 'bold',
-      fontSize: 32
+      fontSize: 25
   },
   text_footer: {
       color: '#05375a',
@@ -224,5 +235,12 @@ const styles = StyleSheet.create({
   textSign: {
       fontSize: 14,
       fontWeight: 'bold'
-  }
+  },
+  header1: {
+      flex: 0.15,
+      flexDirection:'row',
+      paddingHorizontal: 30,
+      marginTop:-50,
+      //justifyContent: 'center',
+  },
 });

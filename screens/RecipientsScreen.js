@@ -18,7 +18,8 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
-import {db} from "../firebase"
+import * as firebase from 'firebase';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const RecipientsScreen = ({navigation,route}) => {
 
@@ -26,12 +27,35 @@ const RecipientsScreen = ({navigation,route}) => {
         Name: '',
         Info: '',
     });
+    
+    const db = firebase.firestore();
+
+    const addNotifications = () => {
+        db.collection('users')
+      .doc(route.params.id).collection('notifications')
+      .add({
+        subject:"Transfer confirmed.",
+        body:`A transfer of $${route.params.amount} has been made.`,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      db.collection('users')
+      .doc(route.params.id).collection('ledgers')
+      .add({
+        type: 'Transfer',
+        amount:`$${route.params.amount}`,
+        total:`$${route.params.newAmount}`,
+        difference:'--',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+        navigation.navigate('BottomTabScreen')
+    }
 
     const updateBalance = () => {
-        console.log(route.params.id)
-        console.log(typeof route.params.newAmount)
+        // console.log(route.params.id)
+        // console.log(typeof route.params.newAmount)
         db.collection("users").doc(route.params.id).update({"accountBalance":route.params.newAmount})
-        navigation.navigate('MainScreen')
+        addNotifications()
+        // navigation.navigate('BottomTabScreen')
     }
 
     const alertSubmit = () => {
@@ -47,16 +71,26 @@ const RecipientsScreen = ({navigation,route}) => {
 
     
     return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
+          <TouchableOpacity style={{marginLeft:30,marginTop:25}}
+        onPress={() => navigation.goBack()}
+        >
+             <FontAwesome 
+                    name="chevron-circle-left"
+                    color="#fff"
+                    size={30}
+                />
+          </TouchableOpacity>
         <View style={styles.header}>
             <Text style={[styles.text_header,{marginTop: 25 }]}>Select a Recipient:</Text>
         </View>
+      
         <Animatable.View 
             animation="fadeInUpBig"
             style={styles.footer}
         >
-            <View >
+            <ScrollView >
             <Text style={styles.item}>Rick H. Haas</Text>
             <Text style={styles.item}> RickHHaas@rhyta.com </Text>
             <View style={styles.button}>
@@ -131,9 +165,9 @@ const RecipientsScreen = ({navigation,route}) => {
                 </TouchableOpacity>
 
             </View>
-            </View>
+            </ScrollView>
         </Animatable.View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -160,13 +194,13 @@ const styles = StyleSheet.create({
          height: 44,
        },
     header: {
-        flex: 1,
+        flex: 0.3,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
         paddingBottom: 20
     },
     footer: {
-        flex: 3,
+        flex: 3.7,
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
@@ -221,5 +255,12 @@ const styles = StyleSheet.create({
     textSign: {
         fontSize: 14,
         fontWeight: 'bold'
-    }
+    },
+    header1: {
+        flex: 0.15,
+        flexDirection:'row',
+        paddingHorizontal: 30,
+        marginTop:-50,
+        //justifyContent: 'center',
+    },
   });

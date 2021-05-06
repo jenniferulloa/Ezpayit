@@ -7,6 +7,7 @@ import {
     TextInput,
     StyleSheet ,
     Keyboard,
+    ScrollView,
     TouchableWithoutFeedback,
     KeyboardAvoidingView,
     StatusBar,
@@ -28,15 +29,15 @@ const LoginScreen = ({navigation}) => {
         if (!email) {
           Alert.alert('Email field is required.');
         }
-    
-        if (!password) {
+        else if (!password) {
           Alert.alert('Password field is required.');
         }
-    
+        else{
         logIn(email, password);
         setEmail('');
         setPassword('');
         navigation.navigate('LoadingScreen');
+        }
       };
     
     return (
@@ -49,6 +50,7 @@ const LoginScreen = ({navigation}) => {
             animation="fadeInUpBig"
             style={styles.footer}
         >
+         <ScrollView>
             <Text style={styles.text_footer}>Email</Text>
             <View style={styles.action}>
                 <FontAwesome 
@@ -61,6 +63,7 @@ const LoginScreen = ({navigation}) => {
                     style={styles.textInput}
                     value = {email}
                     autoCapitalize="none"
+                    autoCorrect = {false}
                     keyboardType = 'email-address'
                     onChangeText = {(email) => setEmail(email)}
 
@@ -84,6 +87,7 @@ const LoginScreen = ({navigation}) => {
                     secureTextEntry={true}
                     style={styles.textInput}
                     autoCapitalize="none"
+                    autoCorrect = {false}
                     onChangeText = {(password) => setPassword(password)}
                 />
                
@@ -121,7 +125,9 @@ const LoginScreen = ({navigation}) => {
                     }]}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </Animatable.View>
+
       </View>
     );
 };

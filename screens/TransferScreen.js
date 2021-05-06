@@ -41,14 +41,24 @@ const TransferScreen = ({navigation,route}) => {
         console.log('transfer',typeof amount)
         route.params.balance -= Number(amount)
         console.log(typeof route.params.balance)
-        navigation.navigate('RecipientsScreen',{newAmount:route.params.balance, id:route.params.id})
+        navigation.navigate('RecipientsScreen',{newAmount:route.params.balance, id:route.params.id,amount:Number(amount)})
     }
     
     return (
       <View style={styles.container}>
           <Text>{"\n\n\n\n\n"}</Text>
           <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
-
+          <View style={[styles.header1]}>
+        <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        >
+             <FontAwesome 
+                    name="chevron-circle-left"
+                    color="#fff"
+                    size={30}
+                />
+          </TouchableOpacity>
+          </View>
         
         <Animatable.View 
             animation="fadeInUpBig"
@@ -169,5 +179,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         textAlign:'center'
-    }
+    },
+    header1: {
+        flex: 0.15,
+        flexDirection:'row',
+        paddingHorizontal: 30,
+        marginTop:-50,
+        //justifyContent: 'center',
+    },
   });

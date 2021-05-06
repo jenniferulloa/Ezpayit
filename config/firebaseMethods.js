@@ -18,6 +18,14 @@ export async function registration(email, password, lastName, firstName, created
         accountBalance:1000.00,
         cryptoBalance:20000.00
       });
+      db.collection('users')
+      .doc(currentUser.uid).collection('notifications')
+      .add({
+        subject:"Thank you for signing up!",
+        body:'Enjoy navigating through the app with your new account!',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
   } catch (err) {
     Alert.alert('Error:', err.message);
   }

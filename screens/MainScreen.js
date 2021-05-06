@@ -15,15 +15,18 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Avatar} from "react-native-elements";
+import {Avatar,Badge} from "react-native-elements";
 import * as firebase from 'firebase';
 import {logOut} from '../config/firebaseMethods';
+import SplashScreen from '../screens/SplashScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Slick from "react-native-slick";
-import {db} from "../firebase"
 import {Alert} from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
 
+
 import {screenHeight, screenWidth} from '../config/dimension';
+
 
 
 const MainScreen = ({navigation}) => {
@@ -34,12 +37,15 @@ const MainScreen = ({navigation}) => {
 
   const isFocused = useIsFocused();
 
+  const[badgeCount, setBadgeCount] = useState(0);
+
   let currentUserUID = firebase.auth().currentUser.uid;
   const [firstName, setFirstName] = useState('');
   const [accountBalance, setAccountBalance] = useState(0);
   const [cryptoBalance, setCryptoBalance] = useState(0);
   const [updateBalance, setUpdateBalance] = useState(false);
   const [didMount, setDidMount] = useState(false); 
+  const db = firebase.firestore();
 
   useEffect(()=>{
     db.collection("users").doc(currentUserUID).get().then((doc)=>{
@@ -48,6 +54,19 @@ const MainScreen = ({navigation}) => {
     });
     // console.log('account balance:',accountBalance)
   },[accountBalance, isFocused]);
+
+  useEffect(()=>{
+    db.collection("users").doc(currentUserUID).collection("notifications").get()
+    .then(snapshot =>{
+      size = snapshot.size
+      // console.log('size', size)
+      setBadgeCount(size)
+    })
+    .catch(err => {
+      console.log('Error', err);
+    });
+    // console.log('badge count:',badgeCount)
+  },[badgeCount, isFocused]);
 
   useEffect(() => {
     async function getUserInfo(){
@@ -64,9 +83,7 @@ const MainScreen = ({navigation}) => {
         } else {
           let dataObj = doc.data();
           setFirstName(dataObj.firstName)
-          // setAccountBalance(dataObj.accountBalance)
           setCryptoBalance(dataObj.cryptoBalance)
-          // console.log(dataObj)
         }
       } catch (err){
       Alert.alert('Error:', err.message)
@@ -75,73 +92,78 @@ const MainScreen = ({navigation}) => {
     getUserInfo();
     
   },[])
-
-  
-
 if(!didMount) {
   return null;
 }
 
   const handlePress = () => {
     logOut();
-    navigation.replace('LoginScreen');
+    navigation.replace('SplashScreen');
   };
-
 
   return (
 
     <View style={styles.container}>    
         <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
         <View style={[styles.header1]}>
-        <TouchableOpacity
-        // onPress={() => navigation.openDrawer()}
-        >
-          {/* 3 bar menu drop down */}
-          <Entypo name='menu' color='white' size={30}/>
+          <TouchableOpacity
+          // onPress={() => navigation.openDrawer()}
+          >
+            {/* 3 bar menu drop down */}
+            <Entypo name='menu' color='white' size={30}/>
 
           </TouchableOpacity>
+
           <TouchableOpacity
-            onPress={handlePress}
-            >
-          <AntDesign name='logout' color='white' size={20}/>
+            onPress={() => navigation.navigate('NotificationScreen',{id:currentUserUID})}
+              >
+              <View style={styles.badgeBell}>
+                <Icon name="notifications" color="#fff" size={26} />
+                <Badge value={badgeCount} status='error' containerStyle={styles.badge}/>
+              </View>
+            
           </TouchableOpacity>
         </View>
 
         <View style={[styles.header2]}>
           <Text style={{fontSize:30, color:'#ffffff',textAlign: 'center'}}>{firstName}</Text>
-          <Slick style={styles.slick} showsButtons={true} loop={true} buttonWrapperStyle={{flex:1,flexDirection:'row',alignItems: 'center',paddingBottom:50}} showsPagination={false} nextButton={<Text style={styles.buttonText}>›</Text>} prevButton={<Text style={styles.buttonText}>‹</Text>}>
-            <View>
+          <Slick style={styles.slick} showsButtons={true} loop={true} 
+                buttonWrapperStyle={{flex:1,flexDirection:'row',alignItems: 'center',paddingBottom:50}} showsPagination={false} 
+                nextButton={<Text style={styles.buttonText}>›</Text>} 
+                prevButton={<Text style={styles.buttonText}>‹</Text>}>
+          <View>
             <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(accountBalance)}</Text>
             <Text style={{fontSize:16,color:'#F8F9FA',alignItems: 'center',textAlign: 'center'}}> Available Balance</Text>
-            </View>
-            <View>
+          </View>
+
+          <View>
             <Text style={{fontSize:40,fontWeight: 'bold', color:'#ffffff',textAlign: 'center'}}>{formatter.format(cryptoBalance)}</Text>
             <Text style={{fontSize:16,color:'#F8F9FA',alignItems: 'center',textAlign: 'center'}}> Crypto Balance</Text>
-            </View>    
-          </Slick>
-          
-          
-    
+          </View>    
+          </Slick>       
         </View>
+
+
+
         <Animatable.View 
             animation="fadeInUpBig"
             style={styles.footer}
         >
         <View style={styles.button}>
         <TouchableOpacity
-                    style={styles.b1}
-                    onPress={() => navigation.navigate('TransferScreen',{balance:accountBalance, id:currentUserUID})}
-                >
-                <LinearGradient
-                    colors={['#696FE2', '#7158B7']}
-                    style={styles.b1}
-                >
+          style={styles.b1}
+          onPress={() => navigation.navigate('TransferScreen',{balance:accountBalance, id:currentUserUID})}>
+          <LinearGradient
+              colors={['#696FE2', '#7158B7']}
+              style={styles.b1}
+          >
                 <Material name='bank-transfer' color='#ffffff' size={50}/>
                     <Text style={[styles.text1, {
                         color:'#fff'
                     }]}>Money Transfer</Text>
-                </LinearGradient>
-                </TouchableOpacity>
+          </LinearGradient>
+        </TouchableOpacity>
+
         <TouchableOpacity
                     style={styles.b1}
                     onPress={() => navigation.navigate('AddMoneyScreen',{balance:accountBalance, id:currentUserUID})}
@@ -158,7 +180,7 @@ if(!didMount) {
                 </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                  // onPress={() => navigation.navigate('......')}
+                    onPress={() => navigation.navigate('SearchScreen')} //update by passing in user id to search screen
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -172,7 +194,7 @@ if(!didMount) {
                 </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                    onPress={() => navigation.navigate('AddCard')}
+                   onPress={() => navigation.navigate('AddCardScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -183,10 +205,10 @@ if(!didMount) {
                         color:'#fff'
                     }]}>Add Card</Text>
                 </LinearGradient>
-        </TouchableOpacity>
+                </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                   // onPress={() => navigation.navigate('.....')}
+                //   onPress={() => navigation.navigate('')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
@@ -198,20 +220,21 @@ if(!didMount) {
                     }]}> Modify Wallet</Text>
                 </LinearGradient>
                 </TouchableOpacity>
+
         <TouchableOpacity
                     style={styles.b1}
-                   //onPress={() => navigation.navigate('')}
+                    onPress={() => navigation.navigate('LedgerScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}
                     style={styles.b1}
                 >
-                <Material name='account-box-outline' color='#ffffff' size={50}/>
+                <AntDesign name='book' color='#ffffff' size={50}/>
                     <Text style={[styles.text1, {
                         color:'#fff'
-                    }]}>Account Status</Text>
+                    }]}>Ledger</Text>
                 </LinearGradient>
-                </TouchableOpacity>
+        </TouchableOpacity>
       </View>
 
         </Animatable.View>
@@ -229,11 +252,22 @@ const styles = StyleSheet.create({
   },
   buttonText:{
     color:'white',
-    fontSize:70,
+    fontSize:30,
+    padding:40,
+    marginBottom:20
     
   },
+  badgeBell:{
+    flexDirection:'row'
+  },
+  badge:{
+    position: 'absolute',
+    top: -5,
+    right: -5,
+  },
   slick:{
-    
+    justifyContent:'center',
+
   },
   header1: {
       flex: 0.15,
@@ -313,8 +347,8 @@ const styles = StyleSheet.create({
 
   },
   b1: {
-      width:0.36 * screenWidth,
-      height:0.16 * screenHeight,
+      width:0.35 * screenWidth,
+      height:0.15 * screenHeight,
       margin: 10,
       justifyContent: 'center',
       alignItems: 'center',

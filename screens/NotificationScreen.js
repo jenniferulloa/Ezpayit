@@ -1,4 +1,5 @@
-import React from 'react';
+import { database } from 'firebase';
+import React,{useEffect, useState} from 'react';
 import { 
     StyleSheet,
     Text,
@@ -6,24 +7,55 @@ import {
     TouchableOpacity,
     View,
     StatusBar,
+    // ScrollView
 } from 'react-native';
+import * as firebase from 'firebase';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { ScrollView } from 'react-native-gesture-handler';
+import NotificationMessages from './NotificationMessages';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import Entypo from 'react-native-vector-icons/Entypo';
+const NotificationScreen = ({navigation,route}) => {
 
-const NotificationScreen = ({navigation}) => {
+  const db = firebase.firestore();
+
+  const [messages,setMessages] = useState([])
+
+  useEffect( () => {
+    const unsubscribe = db.collection("users").doc(route.params.id).collection("notifications").orderBy("timestamp","desc").onSnapshot(snapshot => (
+      setMessages(snapshot.docs.map(doc => ({
+        
+        id:doc.id,
+        data:doc.data()
+        
+      })))
+    ));
+    
+    return unsubscribe;
+  },[])
+
     return (
-      <View style={styles.container}>
-      <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
-        <View style={[styles.header1]}>
-        <TouchableOpacity
-        onPress={() => navigation.openDrawer()}
-        >
-          {/* 3 bar menu drop down */}
-          <Entypo name='menu' color='#fff' size={30}/>
-          </TouchableOpacity>
-          </View>
-        <Text style={{textAlign: 'center'}}>Notification Screen</Text>
+      <View>
+        <View style={styles.iconNotification}>
+          <Icon name="notifications" color="#6970E3" size={26} />
+          <Text style={{fontSize:30, textAlign:'center', margin:10}}>Notifications</Text>
+        </View>
+      <ScrollView style={styles.container}>
+        {/* <StatusBar backgroundColor='#6970E3' barStyle="light-content"/> */}
+        
+        
+
+        {messages.map(({id,data:{subject,body,timestamp}})=>(
+          <TouchableOpacity key={id}>
+          <View style={styles.messageBox}>
+            <NotificationMessages  id={id} subject={subject} body={body} timestamp={timestamp.toDate()}/>
+          </View>       
+          </TouchableOpacity>          
+        ))}
+
+      </ScrollView>
       </View>
+
     );
 };
 
@@ -31,16 +63,16 @@ export default NotificationScreen;
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1, 
-      backgroundColor: '#6970E3'
+      height:'100%',
+      backgroundColor:'white',
     },
-    header1: {
-        flex: 0.15,
-        //justifyContent: 'flex-end',
-        flexDirection:'row',
-        paddingHorizontal: 30,
-        paddingBottom: 2,
-        marginTop:50,
-        //justifyContent: 'center',
+    messageBox:{
+      borderWidth:1,
+      marginBottom:2,
     },
+    iconNotification:{
+      flexDirection:'row',
+      justifyContent:'center',
+      alignItems:'center'
+    }
 });

@@ -17,19 +17,39 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { Input } from 'react-native-elements';
 import VirtualKeyboard from 'react-native-virtual-keyboard';
-import {db} from "../firebase"
+import * as firebase from 'firebase';
+
 
 const TransferMoneyScreen = ({navigation,route}) => {
 
   const [amount,setAmount] = useState('')
   const textInputChange = (value) => {
     setAmount(value)
-}
+    }
+const db = firebase.firestore();
 
   const updateBalance = () => {
     route.params.balance += Number(amount)
     db.collection("users").doc(route.params.id).update({"accountBalance":route.params.balance})
-    navigation.navigate('MainScreen')
+
+    db.collection('users')
+      .doc(route.params.id).collection('notifications')
+      .add({
+        subject:"Transfer confirmed.",
+        body:`A transfer of $${Number(amount)} has been added to your balance.`,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      db.collection('users')
+      .doc(route.params.id).collection('ledgers')
+      .add({
+        type: 'Withdraw',
+        amount:`$${Number(amount)}`,
+        total:`$${route.params.balance}`,
+        difference:'+',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    navigation.navigate('BottomTabScreen')
 }
 
 const alertSubmit = () => {
@@ -77,7 +97,7 @@ const alertSubmit = () => {
                 >
                     <Text style={[styles.textSign, {
                         color:'#fff'
-                    }]}>Select a Recepient!</Text>
+                    }]}>Withdraw!</Text>
                 </LinearGradient>
                 </TouchableOpacity>
 

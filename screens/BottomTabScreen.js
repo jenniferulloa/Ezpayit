@@ -1,6 +1,14 @@
 //Reference: https://reactnavigation.org/docs/material-bottom-tab-navigator/
 import React from 'react';
-
+import { 
+  Text,
+  View, 
+  StyleSheet,
+  Button, 
+  Image,
+  Alert,
+  TouchableOpacity
+       } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -8,9 +16,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import MainScreen from './MainScreen';
-import HistoryScreen from './HistoryScreen';
-import NotificationScreen from './NotificationScreen';
+import LedgerScreen from './LedgerScreen';
 import UserProfileScreen from './UserProfileScreen';
+import QRCodeScan from './QRCodeScan'
+import {icons} from "../constants";
 
 const HomeStack = createStackNavigator();
 
@@ -34,10 +43,10 @@ const BottomTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Notifications"
-        component={HistoryScreen}
+        name="Ledger"
+        component={LedgerScreen}
         options={{
-          tabBarLabel: 'History',
+          tabBarLabel: 'Ledger',
           tabBarColor: '#7158B7',
           tabBarIcon: () => (
             <Icon name="time-outline" color="#fff" size={26} />
@@ -45,18 +54,26 @@ const BottomTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={NotificationScreen}
+        name="Scan"
+        component={QRCodeScan}
         options={{
-          tabBarLabel: 'Notifications',
+          tabBarLabel: 'Scan & Pay',
           tabBarColor: '#7158B7',
           tabBarIcon: () => (
-            <Icon name="notifications" color="#fff" size={26} />
+            <Image
+                            source={icons.scan}
+                            resizeMode="contain"
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor:'#fff'
+                            }}
+                        />
           ),
         }}
       />
       <Tab.Screen
-        name="Explore"
+        name="Profile"
         component={UserProfileScreen}
         options={{
           tabBarLabel: 'Profile',

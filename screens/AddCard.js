@@ -19,7 +19,7 @@ const alertSubmit = () => {
   "Credit card added",
   "a new credit card has been added to your wallet.",
   [
-    { text: "OK", onPress: () => navigation.navigate('AddCard') }]
+    { text: "OK", onPress: () => navigation.navigate('MainScreen') }]
 )
 
 }
@@ -34,7 +34,7 @@ const AddCard = ({navigation}) => {
        <View style={styles.button}>
              <TouchableOpacity
                       style={styles.Login}
-                      // onPress={() => navigation.navigate('MainScreen')}
+                      onPress={alertSubmit}
                   >
               <LinearGradient
                       colors={['#696FE2', '#7158B7']}
@@ -47,7 +47,7 @@ const AddCard = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                    onPress={() => navigation.navigate('MainScreen')}
+                    onPress={() => navigation.goBack()}
                     style={[styles.Login, {
                         borderColor: '#7D2AE8',
                         borderWidth: 1,
