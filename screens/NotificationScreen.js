@@ -7,30 +7,29 @@ import {
     TouchableOpacity,
     View,
     StatusBar,
-    // ScrollView
+    ScrollView
 } from 'react-native';
 import * as firebase from 'firebase';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ScrollView } from 'react-native-gesture-handler';
+// import { ScrollView } from 'react-native-gesture-handler';
 import NotificationMessages from './NotificationMessages';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Swipeable from 'react-native-swipeable-row';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Animated from 'react-native-reanimated';
 
 const NotificationScreen = ({navigation,route}) => {
 
   const db = firebase.firestore();
-
-  const [messages,setMessages] = useState([])
+  const [messages,setMessages] = useState([]);
 
   useEffect( () => {
     const unsubscribe = db.collection("users").doc(route.params.id).collection("notifications").orderBy("timestamp","desc").onSnapshot(snapshot => (
-      setMessages(snapshot.docs.map(doc => ({
-        
+      setMessages(snapshot.docs.map(doc => ({        
         id:doc.id,
-        data:doc.data()
-        
+        data:doc.data()        
       })))
-    ));
-    
+    ));   
     return unsubscribe;
   },[])
 
@@ -41,18 +40,13 @@ const NotificationScreen = ({navigation,route}) => {
           <Text style={{fontSize:30, textAlign:'center', margin:10}}>Notifications</Text>
         </View>
       <ScrollView style={styles.container}>
-        {/* <StatusBar backgroundColor='#6970E3' barStyle="light-content"/> */}
-        
-        
-
         {messages.map(({id,data:{subject,body,timestamp}})=>(
-          <TouchableOpacity key={id}>
-          <View style={styles.messageBox}>
+          //<TouchableOpacity key={id}>
+          <View style={styles.messageBox} key={id}>
             <NotificationMessages  id={id} subject={subject} body={body} timestamp={timestamp.toDate()}/>
-          </View>       
-          </TouchableOpacity>          
+          </View>                 
+         // </TouchableOpacity>          
         ))}
-
       </ScrollView>
       </View>
 
@@ -63,7 +57,7 @@ export default NotificationScreen;
 
 const styles = StyleSheet.create({
     container: {
-      height:'100%',
+      height:'90%',
       backgroundColor:'white',
     },
     messageBox:{

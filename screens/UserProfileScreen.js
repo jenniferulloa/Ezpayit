@@ -20,14 +20,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as firebase from 'firebase';
 import {logOut} from '../config/firebaseMethods';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Slick from "react-native-slick";
-
-
-
-
+import { ScrollView } from 'react-native-gesture-handler';
+// import DialogInput from 'react-native-dialog-input';
 import {screenHeight, screenWidth} from '../config/dimension';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -39,7 +35,7 @@ const UserProfileScreen = ({navigation}) => {
 
   var total_balance = 2999.99;
 
-
+  const db = firebase.firestore();
   let currentUserUID = firebase.auth().currentUser.uid;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -47,57 +43,22 @@ const UserProfileScreen = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [billingAddress,setBillingAddress] = useState('');
   const [accountBalance, setAccountBalance] = useState(0);
-  const [cryptoBalance, setCryptoBalance] = useState(0);
 
   const [didMount, setDidMount] = useState(false); 
 
-
-  useEffect(() => {
-    async function getUserInformation(){
-      try {
-      setDidMount(true);
-        let doc = await firebase
-          .firestore()
-          .collection('users')
-          .doc(currentUserUID)
-          .get();
-
-        if (!doc.exists){
-          Alert.alert('No user data found!')
-        } else {
-          let dataObj = doc.data();
-          setFirstName(dataObj.firstName)
-          setAccountBalance(dataObj.accountBalance)
-        }
-        if (!doc.exists){
-          Alert.alert('No user data found!')
-        } else {
-          let dataObj = doc.data();
-          setLastName(dataObj.lastName)
-          setCryptoBalance(dataObj.cryptoBalance)
-        }
-        if (!doc.exists){
-          Alert.alert('No user data found!')
-        } else {
-          let dataObj = doc.data();
-          setEmail(dataObj.email)
-        }
-      } catch (err){
-      Alert.alert('Error:', err.message)
-      }
-    }
-    getUserInformation();
-    
-  })
-if(!didMount) {
-  return null;
-}
+  useEffect(()=>{
+    db.collection("users").doc(currentUserUID).get().then((doc)=>{
+      setFirstName(doc.data().firstName)
+      setLastName(doc.data().lastName)
+      setEmail(doc.data().email)
+      setAccountBalance(doc.data().accountBalance)
+    });
+  },[]);
 
 const handlePress = () => {
   logOut();
   navigation.replace('SplashScreen');
 };
-
 
   return (
 
@@ -201,11 +162,11 @@ export default UserProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2, 
+    flex: 1, 
     backgroundColor: '#6970E3'
   },
   header1: {
-      flex: .7,
+      flex: .5,
       paddingHorizontal: 50,
       alignItems:'center',
       marginTop:80,
@@ -220,14 +181,14 @@ const styles = StyleSheet.create({
 
   },
   header2: {
-    flex: 0.5,
+    flex: 0.45,
    // justifyContent: 'flex-end',
    flexDirection:'column',
     paddingBottom: 5,
     justifyContent: 'center',
 },
   footer: {
-      flex: 2.5,
+      flex: 1,
       backgroundColor: '#fff',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
@@ -326,7 +287,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: '#6970E3',
-    fontSize: 20,
+    fontSize: 18,
     paddingBottom: 8,
     textAlign: 'left',
   },
@@ -341,22 +302,8 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
-    flexDirection:'row'
-},
-textSign: {
-  fontSize: 20,
-  fontWeight: 'bold'
-},
-buttonText:{
-  color:'white',
-  fontSize:30,
-  padding:40,
-  marginBottom:20
-  
-},
-slick:{
-  justifyContent:'center',
-
+    borderRadius: 10
 },
 });
+
+

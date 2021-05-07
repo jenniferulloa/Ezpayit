@@ -46,63 +46,62 @@ const MainScreen = ({navigation}) => {
   const [updateBalance, setUpdateBalance] = useState(false);
   const [didMount, setDidMount] = useState(false); 
   const db = firebase.firestore();
-
+  
+  // grab and render the updated wallet balance from firestore database after the balance has changed
   useEffect(()=>{
     db.collection("users").doc(currentUserUID).get().then((doc)=>{
-      // console.log('data: ',doc.data())
       setAccountBalance(doc.data().accountBalance)
     });
-    // console.log('account balance:',accountBalance)
   },[accountBalance, isFocused]);
-
+  // grab and render the count of notifications for badge icon after each time the count state changes.
   useEffect(()=>{
     db.collection("users").doc(currentUserUID).collection("notifications").get()
     .then(snapshot =>{
       size = snapshot.size
-      // console.log('size', size)
       setBadgeCount(size)
     })
     .catch(err => {
       console.log('Error', err);
     });
-    // console.log('badge count:',badgeCount)
   },[badgeCount, isFocused]);
 
-  useEffect(() => {
-    async function getUserInfo(){
-      try {
-      setDidMount(true);
-        let doc = await firebase
-          .firestore()
-          .collection('users')
-          .doc(currentUserUID)
-          .get();
+//   useEffect(() => {
+//     async function getUserInfo(){
+//       try {
+//       setDidMount(true);
+//         let doc = await firebase
+//           .firestore()
+//           .collection('users')
+//           .doc(currentUserUID)
+//           .get();
 
-        if (!doc.exists){
-          Alert.alert('No user data found!')
-        } else {
-          let dataObj = doc.data();
-          setFirstName(dataObj.firstName)
-          setCryptoBalance(dataObj.cryptoBalance)
-        }
-      } catch (err){
-      Alert.alert('Error:', err.message)
-      }
-    }
-    getUserInfo();
+//         if (!doc.exists){
+//           Alert.alert('No user data found!')
+//         } else {
+//           let dataObj = doc.data();
+//           setFirstName(dataObj.firstName)
+//           setCryptoBalance(dataObj.cryptoBalance)
+//         }
+//       } catch (err){
+//       Alert.alert('Error:', err.message)
+//       }
+//     }
+//     getUserInfo();
     
-  },[])
-if(!didMount) {
-  return null;
-}
+//   },[])
+// if(!didMount) {
+//   return null;
+// }
 
-  const handlePress = () => {
-    logOut();
-    navigation.replace('SplashScreen');
-  };
+useEffect(()=>{
+  db.collection('users').doc(currentUserUID).get()
+  .then((doc)=>{
+    setFirstName(doc.data().firstName)
+    setCryptoBalance(doc.data().cryptoBalance)
+  })
+},[])
 
   return (
-
     <View style={styles.container}>    
         <StatusBar backgroundColor='#6970E3' barStyle="light-content"/>
         <View style={[styles.header1]}>
@@ -180,7 +179,7 @@ if(!didMount) {
                 </TouchableOpacity>
         <TouchableOpacity
                     style={styles.b1}
-                    onPress={() => navigation.navigate('SearchScreen')} //update by passing in user id to search screen
+                    onPress={() => navigation.navigate('SearchScreen')}
                 >
                 <LinearGradient
                     colors={['#696FE2', '#7158B7']}

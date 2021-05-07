@@ -38,9 +38,9 @@ const TransferScreen = ({navigation,route}) => {
     }
 
     const transferAmount = () => {
-        console.log('transfer',typeof amount)
+        // console.log('transfer',typeof amount)
         route.params.balance -= Number(amount)
-        console.log(typeof route.params.balance)
+        // console.log(typeof route.params.balance)
         navigation.navigate('RecipientsScreen',{newAmount:route.params.balance, id:route.params.id,amount:Number(amount)})
     }
     

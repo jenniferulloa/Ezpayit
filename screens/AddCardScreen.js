@@ -52,7 +52,8 @@ const AddCardScreen = ({navigation}) => {
                     style={[styles.Login, {
                         borderColor: '#7D2AE8',
                         borderWidth: 1,
-                        marginTop: 15
+                        marginTop: 15,
+                        
                     }]}
                 >
                     <Text style={[styles.textSign, {
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
     backgroundColor: 'white',
-    margin:10,
+    margin:5,
   },
   card:{
     marginTop:50,

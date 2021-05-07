@@ -23,6 +23,7 @@ import TransferMoneyScreen from './screens/TransferMoneyScreen';
 import SearchScreen from './screens/SearchScreen';
 import ProductScreen from './screens/ProductScreen';
 import LedgerScreen from './screens/LedgerScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
 
 // Don't delete, used to run app on Android devices
 import 'intl';
@@ -31,8 +32,8 @@ import 'intl/locale-data/jsonp/en'
 const Stack = createStackNavigator();
 
 const App = () =>  {
-
-  if (!firebase.apps.length) {
+  //if no firebase has been initialized yet, do so
+  if (firebase.apps.length===0) {
     console.log('Connected with Firebase')
     firebase.initializeApp(apiKeys.firebaseConfig);
   }
@@ -58,6 +59,7 @@ const App = () =>  {
         <Stack.Screen name="LedgerScreen" component={LedgerScreen}/>
         
 
+        <Stack.Screen name="UserProfileScreen" component={UserProfileScreen}/>
     </Stack.Navigator>
       
     </NavigationContainer>

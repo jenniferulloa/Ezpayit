@@ -5,14 +5,15 @@ import RegisterScreen from './RegisterScreen';
 
 export default function LoadingScreen({ navigation }) {
   useEffect( () => {
-      firebase.auth().onAuthStateChanged((user) => {
+      const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
         <ActivityIndicator size='large' />
         if (user) {
           navigation.replace('BottomTabScreen');
-        } else {
-          navigation.goBack();
-        }
+        } //else {
+          //navigation.goBack();
+        //}
       });
+      return unsubscribe;
     },[]);
 
   return (
